@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Card,
-  Typography,
-  Grid,
-  TextField,
-} from "@mui/material";
+import { Box, Container, Card, Typography, Grid } from "@mui/material";
 import CustomButton from "../../common/button";
 import { Link } from "react-router-dom";
+import CustomTextField from "../../common/textField/textField";
 
 const SigninPage = () => {
   return (
@@ -37,33 +31,19 @@ const SigninPage = () => {
               transform: "scale(0.8)",
             }}
           >
-            <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
-              Email
-            </Typography>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
+            <CustomTextField
+              name="Email"
               id="email"
               label="Enter Your Email"
-              name="email"
-              autoComplete="email"
-              autoFocus
+              type="email"
             />
-            <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
-              Password
-            </Typography>
-            <TextField
-              sx={{ borderRadius: "10px" }}
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
+            <CustomTextField
+              name="Pssword"
               id="password"
-              autoComplete="current-password"
+              label="Enter Your Password"
+              type="password"
             />
+
             <CustomButton text="Sign In" isAuth />
           </Box>
           <Grid>

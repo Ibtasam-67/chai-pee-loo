@@ -12,6 +12,7 @@ const CustomButton = (props) => {
         backgroundColor: "#000000",
         fontSize: "16px",
         borderRadius: "10px",
+        marginTop:"12%"
       }}
     >
       {props.text}

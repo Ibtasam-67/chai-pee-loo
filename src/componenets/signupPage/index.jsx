@@ -1,12 +1,13 @@
 import React from "react";
 import { Box, Container, Card, Typography, TextField } from "@mui/material";
 import CustomButton from "../../common/button";
+import CustomTextField from "../../common/textField/textField";
 
 const SignupPage = () => {
   return (
     <Box sx={{ marginTop: "4%" }}>
       <Container maxWidth="xs">
-        <Card sx={{ maxWidth: 545, height: 600 }}>
+        <Card sx={{ maxWidth: 445, height: 600 }}>
           <img
             src="luminogicsLogo-1.png"
             alt="luminogicsLogo"
@@ -28,60 +29,25 @@ const SignupPage = () => {
               transform: "scale(0.8)",
             }}
           >
-            <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
-              First Name
-            </Typography>
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="first name"
-              label="First Name"
-              name="first name"
-              autoComplete="first name"
-              autoFocus
+            <CustomTextField
+              name="User Name"
+              id="username"
+              label="User Name"
+              type="text"
             />
-            <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
-              Last Name
-            </Typography>
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="Last Name"
-              label="Last Name"
-              type="Last Name"
-              id="Last Name"
-            />
-            <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
-              Email
-            </Typography>
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
+            <CustomTextField
               name="Email"
-              label="Email"
-              type="Email"
-              id="Email"
+              id="email"
+              label="Enter Your Email"
+              type="email"
             />
-            <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
-              Password
-            </Typography>
-
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
+            <CustomTextField
+              name="Password"
+              id="password"
               label="Password"
               type="password"
-              id="password"
-              autoComplete="current-password"
             />
+
             <CustomButton text="Sign Up" isAuth />
           </Box>
         </Card>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
-import CustomCard from "../../common/card";
+// import CustomCard from "../../common/card";
 import Header from "../header";
 
 const Landing = () => {
@@ -16,13 +16,13 @@ const Landing = () => {
         }}
       >
         <Grid item md={3} mt="2%">
-          <CustomCard text=" Morning Tea " />
+          {/* <CustomCard text=" Morning Tea " /> */}
         </Grid>
         <Grid item md={3} mt="2%">
-          <CustomCard text="Afternoon !!" />
+          {/* <CustomCard text="Afternoon !!" /> */}
         </Grid>
         <Grid item md={3} mt="2%">
-          <CustomCard text="Eveneing Tea" />
+          {/* <CustomCard text="Eveneing Tea" /> */}
         </Grid>
       </Grid>
     </div>
