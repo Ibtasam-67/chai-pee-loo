@@ -1,20 +1,21 @@
-import { TextField, Typography } from "@mui/material";
 import React from "react";
+import { TextField, Typography } from "@mui/material";
 
-const CustomTextField = (props) => {
+const CustomTextField = ({ name, id, label, type, onChange }) => {
   return (
     <>
       <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
-        {props.name}
+        {name}
       </Typography>
       <TextField
         margin="normal"
         required
         fullWidth
-        id={props.id}
-        label={props.label}
-        type={props.type}
+        id={id}
+        label={label}
+        type={type}
         autoFocus
+        onChange={onChange}
       />
     </>
   );

@@ -5,10 +5,17 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <Box sx={{ flexGrow: 1 }} data-testid="header-1">
-      <AppBar position="static" sx={{ backgroundColor: "#000000" }}>
+      <AppBar position="static" sx={{ backgroundColor: "#0C1012" }}>
         <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
-          <Typography variant="h6" sx={{ color: "white" }}>
-            Luminogics
+          <Typography
+            variant="h5"
+            sx={{
+              color: "#FF5442",
+              fontFamily: "monospace",
+              fontWeight: "700",
+            }}
+          >
+            Chay-Pee-Lo
           </Typography>
           <Grid
             item
@@ -22,15 +29,23 @@ const Header = () => {
                   color: "white",
                   textDecorationLine: "none",
                   marginRight: "1rem",
+                  fontFamily: "monospace",
+                  fontWeight: "700",
                 }}
               >
                 Home
               </Link>
               <Link
                 to="/landing"
-                style={{ color: "white", textDecorationLine: "none" }}
+                style={{
+                  color: "white",
+                  textDecorationLine: "none",
+
+                  fontFamily: "monospace",
+                  fontWeight: "700",
+                }}
               >
-                Sign In
+                SignIn
               </Link>
             </Typography>
           </Grid>

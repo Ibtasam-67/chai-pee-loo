@@ -1,29 +1,27 @@
 import React from "react";
 import { Grid } from "@mui/material";
-// import CustomCard from "../../common/card";
+import CustomCard from "../../common/card/index";
 import Header from "../header";
 
 const Landing = () => {
+  const events = ["Morning Tea", "After Noon !!", "Evening Tea"];
   return (
-    <div>
-      <Header />
+    <div style={{backgroundColor:"#0E1113",height:"100vh"}}>
+      <Header/>
       <Grid
         container
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-evenly",
           marginTop: "10%",
+      
         }}
       >
-        <Grid item md={3} mt="2%">
-          {/* <CustomCard text=" Morning Tea " /> */}
-        </Grid>
-        <Grid item md={3} mt="2%">
-          {/* <CustomCard text="Afternoon !!" /> */}
-        </Grid>
-        <Grid item md={3} mt="2%">
-          {/* <CustomCard text="Eveneing Tea" /> */}
-        </Grid>
+        {events.map((event,index) => (
+          <Grid item md={3} mt="2%" key={index}>
+            <CustomCard text={event} />
+          </Grid>
+        ))}
       </Grid>
     </div>
   );

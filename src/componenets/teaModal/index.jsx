@@ -1,44 +1,70 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
+import React from "react";
+import {
+  Box,
+  Container,
+  Card,
+  Typography,
+  Divider,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
+import CustomButton from "../../common/button";
+import CustomTextField from "../../common/textField";
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
+const TeaModal = () => {
+  return (
+    <Box sx={{ marginTop: "10%" }}>
+      <Container maxWidth="xs">
+        <Card sx={{ maxWidth: 545, height: 370, boxShadow: 24 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "600",
+              fontFamily: "monospace",
+              marginTop: "6%",
+              boxShadow: "20px",
+            }}
+          >
+            Tea Requirements
+          </Typography>
+          <Divider sx={{ marginTop: "5%" }} />
+          <Box
+            component="form"
+            noValidate
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              mx: "2px",
+              transform: "scale(0.8)",
+            }}
+          >
+            <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
+              Chay Quantity
+            </Typography>
+            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Age"
+              fullWidth
+            >
+              <MenuItem value={10}>Half Cup</MenuItem>
+              <MenuItem value={20}>Full Cup</MenuItem>
+            </Select>
+            <CustomTextField
+              name="Sugar"
+              id="sugar"
+              label="Sugar Quantity"
+              type="number"
+            />
+            <CustomButton text="Order" isAuth />;
+          </Box>
+        </Card>
+      </Container>
+    </Box>
+  );
 };
 
-export default function TeaModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  return (
-    <div>
-      <Button onClick={handleOpen}>Open modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={{...style, width:"60vw" }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
-    </div>
-  );
-}
+export default TeaModal;

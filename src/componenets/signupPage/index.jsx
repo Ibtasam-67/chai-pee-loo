@@ -1,9 +1,29 @@
-import React from "react";
-import { Box, Container, Card, Typography, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { Box, Container, Card, Typography } from "@mui/material";
 import CustomButton from "../../common/button";
-import CustomTextField from "../../common/textField/textField";
+import CustomTextField from "../../common/textField";
+import { signUp } from "../../services/dataServices";
 
 const SignupPage = () => {
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const payload = {
+      userName: userName,
+      email: email,
+      password: password,
+    };
+    const result = await signUp(payload);
+    setUserName("");
+    setEmail("");
+    setPassword("");
+    setLoading(false);
+  };
   return (
     <Box sx={{ marginTop: "4%" }}>
       <Container maxWidth="xs">
@@ -15,7 +35,7 @@ const SignupPage = () => {
           />
           <Typography
             variant="h5"
-            sx={{ fontWeight: "600", fontFamily: "Inter", marginTop: "4%" }}
+            sx={{ fontWeight: "600", fontFamily: "Inter", marginTop: "8%" }}
           >
             Welcome To Luminogics
           </Typography>
@@ -34,21 +54,26 @@ const SignupPage = () => {
               id="username"
               label="User Name"
               type="text"
+              onChange={(e) => setUserName(e.target.value)}
+              value={userName}
             />
             <CustomTextField
               name="Email"
               id="email"
               label="Enter Your Email"
               type="email"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
             <CustomTextField
               name="Password"
               id="password"
               label="Password"
               type="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
-
-            <CustomButton text="Sign Up" isAuth />
+            <CustomButton onClick={onSubmit} text="Sign Up" isAuth />
           </Box>
         </Card>
       </Container>
