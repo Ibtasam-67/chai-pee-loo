@@ -43,7 +43,6 @@ const SigninPage = () => {
               label="Enter Your Password"
               type="password"
             />
-
             <CustomButton text="Sign In" isAuth />
           </Box>
           <Grid>

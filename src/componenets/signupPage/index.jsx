@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Container, Card, Typography } from "@mui/material";
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField";
-import { login, signUp } from "../../services/dataServices";
+import { signUp } from "../../services/dataServices";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
@@ -25,11 +25,10 @@ const SignupPage = () => {
       password: password,
     };
     const result = await signUp(payload);
-    const resul = await login(email,password);
     if (result.status === 200) {
       toast.success(result.data.metadata.message);
       setTimeout(() => {
-        // navigate(path);
+        navigate(path);
       }, 2000);
     } else {
       toast.error(result.response.data.metadata.message);

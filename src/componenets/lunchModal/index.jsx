@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Card,
-  Typography,
-  Divider,
- 
-} from "@mui/material";
+import { Box, Container, Card, Typography, Divider } from "@mui/material";
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField/index";
 
@@ -51,7 +44,6 @@ const LunchModal = () => {
               label="Amount Paid"
               type="number"
             />
-           
             <CustomButton text="Order" isAuth />
           </Box>
         </Card>
