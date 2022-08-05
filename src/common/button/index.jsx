@@ -1,7 +1,8 @@
 import React from "react";
 import { Button } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 
-const CustomButton = ({ onClick, text, isAuth }) => {
+const CustomButton = ({ onClick, text, isAuth, loading, isEnable}) => {
   return (
     <Button
       type="submit"
@@ -18,8 +19,9 @@ const CustomButton = ({ onClick, text, isAuth }) => {
         marginTop: "12%",
       }}
       onClick={onClick}
+      disabled={isEnable}
     >
-      {text}
+      {loading ? <CircularProgress /> : text}
     </Button>
   );
 };
