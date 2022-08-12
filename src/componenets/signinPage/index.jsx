@@ -29,7 +29,6 @@ const SigninPage = () => {
 
     const result = await signIn(payload);
     if (result.status === 200) {
-      console.log("console.loasdasd",result.data.payload.data.token);
       localStorage.setItem("token",result.data.payload.data.token)
       toast.success(result.data.metadata.message);
       
