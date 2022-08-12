@@ -1,46 +1,32 @@
 import React, { useState } from "react";
-import { Box, Container, Card, Typography, Grid } from "@mui/material";
+import { Box, Container, Card, Typography } from "@mui/material";
 import CustomButton from "../../common/button";
-import { Link } from "react-router-dom";
 import CustomTextField from "../../common/textField/index";
 import { useNavigate } from "react-router-dom";
-import { signIn } from "../../services/dataServices";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { addUser } from "../../redux/actions/userAction";
 
-const SigninPage = () => {
+const AdminSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const path = "/landing";
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const payload = {
-      email: email,
-      password: password,
-    };
-
-    const result = await signIn(payload);
-    if (result.status === 200) {
-      console.log("console.loasdasd",result.data.payload.data.token);
-      localStorage.setItem("token",result.data.payload.data.token)
-      toast.success(result.data.metadata.message);
-      
-      setTimeout(() => {
-
-        navigate(path);
-      }, 2000);
+    e.preventDefault();
+    if (email === "faisal123@luminogics.com" && password === "faisal123") {
+      localStorage.setItem("email", "faisal123@luminogics.com");
+      navigate("/lunchorder");
+    } else if (email !== "faisal123@luminogics.com") {
+      toast.error("Wrong Email Address");
+    } else if (password !== "faisal123") {
+      toast.error("Wrong password!");
     } else {
-      toast.error(result.response.data.metadata.message);
+      toast.error("Wrong Email and password!");
     }
-    dispatch(addUser(result));
     setEmail("");
     setPassword("");
     setLoading(false);
@@ -97,38 +83,10 @@ const SigninPage = () => {
               isEnable={!email || !password}
             />
           </Box>
-          <Box style={{ display: "flex", justifyContent: "space-around" }}>
-            <Grid item sx={3}>
-              <Link to="/adminsignin">
-                <span
-                  style={{
-                    fontWeight: "600",
-                    textDecoration: "none",
-                    color: "#2196f3",
-                  }}
-                >
-                  Admin SignIn
-                </span>
-              </Link>
-            </Grid>
-            <Grid item sx={3}>
-              <Link to="/signup">
-                <span
-                  style={{
-                    fontWeight: "600",
-                    textDecoration: "none ",
-                    color: "#2196f3",
-                  }}
-                >
-                  Sign Up
-                </span>
-              </Link>
-            </Grid>
-          </Box>
         </Card>
       </Container>
     </Box>
   );
 };
 
-export default SigninPage;
+export default AdminSignIn;

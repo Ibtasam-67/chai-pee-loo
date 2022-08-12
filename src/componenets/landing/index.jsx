@@ -4,26 +4,46 @@ import CustomCard from "../../common/card/index";
 import Header from "../header";
 
 const Landing = () => {
-  const events = ["Morning Tea", "After Noon !!", "Evening Tea"];
   return (
-    <div style={{backgroundColor:"#0E1113",height:"100vh"}}>
-      <Header/>
+    <>
+      <Header />
       <Grid
         container
         sx={{
           display: "flex",
           justifyContent: "space-evenly",
-          marginTop: "10%",
-      
+          marginTop: "5%",
         }}
       >
-        {events.map((event,index) => (
-          <Grid item md={3} mt="2%" key={index}>
-            <CustomCard text={event} />
-          </Grid>
-        ))}
+        <Grid item md={3} mt="2%">
+          <CustomCard
+            text="Morning Tea"
+            paragraphy="You can not order after 11 am"
+            order="Order"
+            src="cup.jpg"
+            path="/teamodal"
+          />
+        </Grid>
+        <Grid item md={3} mt="2%">
+          <CustomCard
+            text="Lunch"
+            paragraphy="You can not order after 1 pm"
+            order="Order"
+            src="images.jpg"
+            path="/lunchmodal"
+          />
+        </Grid>
+        <Grid item md={3} mt="2%">
+          <CustomCard
+            text="Evening Tea"
+            paragraphy="You can not order after 4 pm"
+            order="Order"
+            src="cup.jpg"
+            path="/teamodal"
+          />
+        </Grid>
       </Grid>
-    </div>
+    </>
   );
 };
 

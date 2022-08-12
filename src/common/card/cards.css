@@ -1,0 +1,161 @@
+.body-1 {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 60vh;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  position: relative;
+}
+
+.container .card {
+  position: relative;
+  width: 300px;
+  height: 530px;
+  background: #0c1012;
+  border-radius: 20px;
+  overflow: hidden;
+  transition: 0.5s ease-in-out;
+}
+
+.container .card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #ff5442;
+  clip-path: circle(180px at 80% 20%);
+  transition: 0.3s ease-in-out;
+  z-index: 200;
+}
+
+.container .card:hover::before {
+  clip-path: circle(300px at 80% -20%);
+}
+
+.container .card::after {
+  /* content: url(../img/olympikus-logo.png); */
+  opacity: 0.1;
+  position: absolute;
+  top: 50%;
+  left: -42%;
+}
+
+.container .card .imgBox {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  width: 100%;
+  height: 220px;
+  transition: 0.5s ease-in-out;
+}
+
+.container .card:hover .imgBox {
+  top: 10%;
+  transform: translate(0%);
+  transition: 0.5s;
+}
+
+.container .card .imgBox img {
+  position: absolute;
+  top: 44%;
+  left: -35%;
+  transform: rotateY(180deg) translate(-50%, -50%) rotate(25deg);
+  width: 260px;
+}
+
+.container .card .contentBox {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100px;
+  text-align: center;
+  transition: 1s;
+  z-index: 10;
+}
+
+.container .card:hover .contentBox {
+  height: 250px;
+}
+
+.container .card h2 {
+  position: relative;
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 2.3rem;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.container .card .size,
+.container .card .color {
+  display: flex;
+  justify-content: center;
+  transition: 0.5s;
+  opacity: 0;
+  visibility: hidden;
+  margin: 20px 0;
+}
+
+.container .card:hover .size,
+.container .card:hover .color {
+  opacity: 1;
+  visibility: visible;
+}
+
+.container .card:hover .size {
+  transition-delay: 0.5s;
+}
+
+.container .card:hover .color {
+  transition-delay: 0.7s;
+}
+
+.container .card h3 {
+  color: #fff;
+  font-weight: 300;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-right: 5px;
+}
+.container .card h6 {
+  color: #fff;
+  font-weight: 300;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-right: 5px;
+}
+
+.card .contentBox Button {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #fff;
+  border-radius: 4px;
+  font-weight: 600;
+  color: #111;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: 0.3s;
+}
+
+.card:hover .contentBox Button {
+  opacity: 1;
+  transform: translate(0px);
+  /* transition-delay: 0.2s;   */
+}
+
+.card .contentBox Button:hover {
+  background: #ff472b;
+  color: #fff;
+}

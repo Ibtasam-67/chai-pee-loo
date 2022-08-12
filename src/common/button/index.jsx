@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 
-const CustomButton = ({ onClick, text, isAuth, loading, isEnable}) => {
+const CustomButton = ({ onClick, text, isAuth, loading, isEnable }) => {
   return (
     <Button
       type="submit"
