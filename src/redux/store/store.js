@@ -6,11 +6,13 @@ import storage from "redux-persist/lib/storage";
 import lunchReducer from "../reducers/lunchReducer";
 import userReducer from "../reducers/userReducer";
 import teaReducer from "../reducers/teaReducer";
+import typeReducer from "../reducers/typeReducer";
 const middleware = [thunk];
 const Reducer = combineReducers({
   lunch: lunchReducer,
-  user:userReducer,
-  tea:teaReducer
+  user: userReducer,
+  tea: teaReducer,
+  type: typeReducer,
 });
 const persistConfig = {
   key: "root",

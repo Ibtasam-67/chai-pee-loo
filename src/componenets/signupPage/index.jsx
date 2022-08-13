@@ -16,7 +16,7 @@ const SignupPage = () => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-  const path = "/";
+  const path = "/signin";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -100,7 +100,7 @@ const SignupPage = () => {
           </Box>
           <Grid>
             <span>Don't have an account? </span>
-            <Link to="/">
+            <Link to="/signin">
               <span
                 style={{
                   fontWeight: "600",

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -16,18 +16,37 @@ import Header from "../../header/index";
 import Loader from "../../../common/loader/loader";
 import CustomTableCell from "../../../common/tableCell/tableCell";
 import Pagination from "../../../common/pagination/pagination";
-import { useSelector } from "react-redux";
+import axios from "axios";
+// import { useSelector } from "react-redux";
+// import {getAllOrders} from "../../../services/resultsServices"
 
 function TablePaginationActions(props) {
   return <Pagination props={props} />;
 }
 
-const LunchOrder = () => {
-  const data = useSelector((state) => state.lunch.data);
-
+const Orders = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
+  const [products, setProducts] = useState([]);
+
+  
+
+  const getUsers = async () => {
+    axios
+      .get(
+        "https://lu-meal-stage.herokuapp.com/api/admin/get-available-orders/Morning-Tea"
+      )
+      .then((res) => {
+        const products = res.data.payload.data;
+        setProducts(products);
+        console.log(products);
+      });
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -66,24 +85,23 @@ const LunchOrder = () => {
               </Grid>
               <Divider sx={{ mt: "4vh" }} />
 
-              {data.length ? (
+              {products.length ? (
                 <TableContainer>
                   <Table size="small" aria-label="a dense table">
                     <TableHead>
                       <TableRow>
                         <CustomTableCell name="Name" isHeader />
-                        <CustomTableCell name="Description" isHeader />
-                        <CustomTableCell name="Roti" isHeader />
-                        <CustomTableCell name="Amount" isHeader />
+                        <CustomTableCell name="Tea Volume" isHeader />
+                        <CustomTableCell name="Sugar Quantity" isHeader />
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {(rowsPerPage > 0
-                        ? data.slice(
+                        ? products.slice(
                             page * rowsPerPage,
                             page * rowsPerPage + rowsPerPage
                           )
-                        : data
+                        : products
                       ).map((product) => {
                         return (
                           <TableRow
@@ -92,16 +110,15 @@ const LunchOrder = () => {
                               "&:last-child td, &:last-child th": { border: 0 },
                             }}
                           >
-                            <CustomTableCell name={product.userName} />
-                            <CustomTableCell name={product.description} />
-                            <CustomTableCell name={product.roti} />
-                            <CustomTableCell name={product.amount} />
+                            <CustomTableCell name={product.employeeName} />
+                            <CustomTableCell name={product.teaVolume} />
+                            <CustomTableCell name={product.sugerQuantity} />
                           </TableRow>
                         );
                       })}
                     </TableBody>
                     <TableRow>
-                      {data.length >= 10 && (
+                      {products.length >= 10 && (
                         <TablePagination
                           rowsPerPageOptions={[
                             5,
@@ -109,7 +126,7 @@ const LunchOrder = () => {
                             25,
                             { label: "All", value: -1 },
                           ]}
-                          count={data.length}
+                          count={products.length}
                           rowsPerPage={rowsPerPage}
                           page={page}
                           SelectProps={{
@@ -145,4 +162,4 @@ const LunchOrder = () => {
   );
 };
 
-export default LunchOrder;
+export default Orders;

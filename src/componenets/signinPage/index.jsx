@@ -17,7 +17,7 @@ const SigninPage = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
-  const path = "/landing";
+  const path = "/";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +29,6 @@ const SigninPage = () => {
 
     const result = await signIn(payload);
     if (result.status === 200) {
-      console.log("console.loasdasd",result.data.payload.data.token);
       localStorage.setItem("token",result.data.payload.data.token)
       toast.success(result.data.metadata.message);
       
@@ -50,7 +49,7 @@ const SigninPage = () => {
       <Toaster position="top-right" reverseOrder={true} />
 
       <Container maxWidth="xs">
-        <Card sx={{ maxWidth: 545, height: 500 }}>
+        <Card style={{ maxWidth: 545, height: 500 }}>
           <img
             src="luminogicsLogo-1.png"
             alt="luminogicsLogo"
@@ -58,14 +57,14 @@ const SigninPage = () => {
           />
           <Typography
             variant="h5"
-            sx={{ fontWeight: "600", fontFamily: "Inter", marginTop: "6%" }}
+            style={{ fontWeight: "600", fontFamily: "Inter", marginTop: "6%" }}
           >
             Welcome To Luminogics
           </Typography>
           <Box
             component="form"
             noValidate
-            sx={{
+            style={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

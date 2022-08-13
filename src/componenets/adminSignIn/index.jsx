@@ -19,7 +19,7 @@ const AdminSignIn = () => {
     e.preventDefault();
     if (email === "faisal123@luminogics.com" && password === "faisal123") {
       localStorage.setItem("email", "faisal123@luminogics.com");
-      navigate("/lunchorder");
+      navigate("/order");
     } else if (email !== "faisal123@luminogics.com") {
       toast.error("Wrong Email Address");
     } else if (password !== "faisal123") {

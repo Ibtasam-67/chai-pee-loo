@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { createOrder } from "../../services/dataServices";
+import React, { useEffect, useState } from "react";
+import {
+  createOrder,
+  deleteOrders,
+  updateOrders,
+} from "../../services/dataServices";
 import {
   Box,
   Container,
@@ -13,42 +17,93 @@ import {
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField";
 import { useDispatch, useSelector } from "react-redux";
-import { addTea } from "../../redux/actions/teaAction";
+import { addTea, deleteTea, updateTea } from "../../redux/actions/teaAction";
 import Header from "../header";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import { getEmployeeOrder } from "../../services/dataServices";
+import { useNavigate } from "react-router-dom";
 
-const TeaModal = ({ text }) => {
+const TeaModal = () => {
   const user = useSelector(
     (state) => state?.user?.data?.data?.payload?.data?.user
   );
 
+  const type = useSelector((state) => state?.type?.data);
+
+  const alldata = useSelector((state) => state?.tea?.data[0]);
+
   const [userName, setUserName] = useState(user?.userName);
-  const [chayQuant, setChayQuant] = useState("");
-  const [sugar, setSugar] = useState("");
+  const [chayQuant, setChayQuant] = useState(alldata?.teaVolume);
+  const [sugar, setSugar] = useState(alldata?.sugerQuantity);
   const [loading, setLoading] = useState(false);
+  const [allOrders, setAllOrders] = useState([]);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    getAllEmployers();
+  }, []);
+  const getAllEmployers = async () => {
+    const result = await getEmployeeOrder(type, user?.email);
+    setAllOrders(result?.data?.payload?.data);
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     let date = "2022-08-12T17:00:00";
     const payload = {
-      email: user.email,
-      employeeName: user.userName,
+      email: user?.email,
+      employeeName: user?.userName,
       sugerQuantity: sugar,
       teaVolume: chayQuant,
       orderDate: date,
-      orderType: "Evening-Tea",
+      orderType: type,
     };
     const result = await createOrder(payload);
 
+    if (result.status === 200) {
+      toast.success(result.response.data?.metadata.message);
+    } else {
+      toast.error(result.response.data.metadata.message);
+    }
     dispatch(addTea(payload));
+    // navigate("/")
     setChayQuant("");
     setSugar("");
     setLoading(false);
   };
+
+  const onEdit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const newOrder = {
+      _id: allOrders[0]?._id,
+      teaVolume: chayQuant,
+      sugerQuantity: sugar,
+    };
+    const order = await updateOrders(newOrder);
+
+    if (order.status === 200) {
+      toast.success(order.data.metadata.message);
+    }
+    setLoading(false);
+    dispatch(updateTea(newOrder));
+  };
+
+  const onDelete = async (e) => {
+    e.preventDefault();
+    const order = await deleteOrders(allOrders[0]?._id);
+    dispatch(deleteTea(order,allOrders[0]?._id));
+    setChayQuant("");
+    setSugar(" ");
+  };
   return (
     <Box>
+      <Toaster position="top-right" reverseOrder={true} />
+
       <Header />
       <Container maxWidth="xs">
         <Card
@@ -120,23 +175,23 @@ const TeaModal = ({ text }) => {
                   text="Order"
                   onClick={onSubmit}
                   isEnable={!sugar || !chayQuant || !userName}
-                  loading={loading}
+                  // loading={loading}
                 />
               </Grid>
               <Grid item xs={4}>
                 <CustomButton
                   text="Edit"
-                  onClick={onSubmit}
-                  isEnable={!sugar || !chayQuant || !userName}
-                  loading={loading}
+                  onClick={onEdit}
+                  // isEnable={!sugar || !chayQuant || !userName}
+                  // loading={loading}
                 />
               </Grid>
               <Grid item xs={4}>
                 <CustomButton
                   text="Delete"
-                  onClick={onSubmit}
-                  isEnable={!sugar || !chayQuant || !userName}
-                  loading={loading}
+                  onClick={onDelete}
+                  // isEnable={!sugar || !chayQuant || !userName}
+                  // loading={loading}
                 />
               </Grid>
             </Grid>
