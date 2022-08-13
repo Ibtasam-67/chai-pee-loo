@@ -17,9 +17,7 @@ import Loader from "../../../common/loader/loader";
 import CustomTableCell from "../../../common/tableCell/tableCell";
 import Pagination from "../../../common/pagination/pagination";
 import axios from "axios";
-// import { useSelector } from "react-redux";
-// import {getAllOrders} from "../../../services/resultsServices"
-
+ 
 function TablePaginationActions(props) {
   return <Pagination props={props} />;
 }
