@@ -1,10 +1,10 @@
 const initialState = {
   data: [],
 };
-
+ 
 const teaReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "Orders":
+    case "ADD_TEA":
       return {
         ...state,
         data: [...state.data, action.payload],
@@ -14,14 +14,12 @@ const teaReducer = (state = initialState, action) => {
           ...state,
           data: state.data.filter((li) => li.id !== action.payload),
         };
+      
+         
     case "UPDATE_TEA":
       return {
         ...state,
-        data: state.data.map((elm) =>
-          elm.id === action.payload.id
-            ? { ...elm, name: action.payload.name }
-            : elm
-        ),
+        data: [...state.data, action.payload],
       };
     default:
       return state;

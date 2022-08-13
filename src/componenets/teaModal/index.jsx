@@ -22,25 +22,19 @@ import Header from "../header";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { getEmployeeOrder } from "../../services/dataServices";
-import { useNavigate } from "react-router-dom";
 
 const TeaModal = () => {
+  const [alldata, setAllData] = useState();
   const user = useSelector(
     (state) => state?.user?.data?.data?.payload?.data?.user
   );
 
   const type = useSelector((state) => state?.type?.data);
 
-  const alldata = useSelector((state) => state?.tea?.data[0]);
-
-  const [userName, setUserName] = useState(user?.userName);
-  const [chayQuant, setChayQuant] = useState(alldata?.teaVolume);
-  const [sugar, setSugar] = useState(alldata?.sugerQuantity);
   const [loading, setLoading] = useState(false);
   const [allOrders, setAllOrders] = useState([]);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     getAllEmployers();
@@ -48,17 +42,19 @@ const TeaModal = () => {
   const getAllEmployers = async () => {
     const result = await getEmployeeOrder(type, user?.email);
     setAllOrders(result?.data?.payload?.data);
+    setAllData(result?.data?.payload?.data[0]);
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    let date = "2022-08-12T17:00:00";
+
+    let date = new Date();
+
     const payload = {
       email: user?.email,
       employeeName: user?.userName,
-      sugerQuantity: sugar,
-      teaVolume: chayQuant,
+      sugerQuantity: alldata.sugerQuantity,
+      teaVolume: alldata.teaVolume,
       orderDate: date,
       orderType: type,
     };
@@ -70,35 +66,28 @@ const TeaModal = () => {
       toast.error(result.response.data.metadata.message);
     }
     dispatch(addTea(payload));
-    // navigate("/")
-    setChayQuant("");
-    setSugar("");
-    setLoading(false);
   };
 
   const onEdit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     const newOrder = {
-      _id: allOrders[0]?._id,
-      teaVolume: chayQuant,
-      sugerQuantity: sugar,
+      _id: alldata?._id,
+      teaVolume: alldata.teaVolume,
+      sugerQuantity: alldata.sugerQuantity,
     };
     const order = await updateOrders(newOrder);
-
     if (order.status === 200) {
       toast.success(order.data.metadata.message);
     }
-    setLoading(false);
+
     dispatch(updateTea(newOrder));
   };
 
   const onDelete = async (e) => {
     e.preventDefault();
-    const order = await deleteOrders(allOrders[0]?._id);
-    dispatch(deleteTea(order,allOrders[0]?._id));
-    setChayQuant("");
-    setSugar(" ");
+    const order = await deleteOrders(alldata?._id);
+    dispatch(deleteTea(order, alldata?._id));
+    setAllData(null);
   };
   return (
     <Box>
@@ -137,8 +126,12 @@ const TeaModal = () => {
               id="UserName"
               label="UserName"
               type="name"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={alldata?.employeeName}
+              onChange={(e) => {
+                let d = { ...alldata };
+                d.employeeName = e.target.value;
+                setAllData(d);
+              }}
             />
             <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
               Chay Quantity
@@ -146,8 +139,12 @@ const TeaModal = () => {
             <Select
               labelId="demo-simple-select-autowidth-label"
               id="demo-simple-select-autowidth"
-              value={chayQuant}
-              onChange={(e) => setChayQuant(e.target.value)}
+              value={alldata?.teaVolume}
+              onChange={(e) => {
+                let d = { ...alldata };
+                d.teaVolume = e.target.value;
+                setAllData(d);
+              }}
               fullWidth
               label="Tea"
             >
@@ -159,8 +156,12 @@ const TeaModal = () => {
               id="sugar"
               label="Sugar Quantity"
               type="number"
-              value={sugar}
-              onChange={(e) => setSugar(e.target.value)}
+              value={alldata?.sugerQuantity}
+              onChange={(e) => {
+                let d = { ...alldata };
+                d.sugerQuantity = parseInt(e.target.value);
+                setAllData(d);
+              }}
             />
             <Grid
               container
@@ -171,28 +172,13 @@ const TeaModal = () => {
               }}
             >
               <Grid item xs={4}>
-                <CustomButton
-                  text="Order"
-                  onClick={onSubmit}
-                  isEnable={!sugar || !chayQuant || !userName}
-                  // loading={loading}
-                />
+                <CustomButton text="Order" onClick={onSubmit} />
               </Grid>
               <Grid item xs={4}>
-                <CustomButton
-                  text="Edit"
-                  onClick={onEdit}
-                  // isEnable={!sugar || !chayQuant || !userName}
-                  // loading={loading}
-                />
+                <CustomButton text="Edit" onClick={onEdit} />
               </Grid>
               <Grid item xs={4}>
-                <CustomButton
-                  text="Delete"
-                  onClick={onDelete}
-                  // isEnable={!sugar || !chayQuant || !userName}
-                  // loading={loading}
-                />
+                <CustomButton text="Delete" onClick={onDelete} />
               </Grid>
             </Grid>
           </Box>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL, SIGN_IN, SIGN_UP } from "../utilities/constants";
+import { BASE_URL, SIGN_UP } from "../utilities/constants";
 import { setHeaders } from "../common/helpers/index";
 
 export const signUp = async (payload) => {

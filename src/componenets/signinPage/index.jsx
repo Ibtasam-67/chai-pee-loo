@@ -29,11 +29,10 @@ const SigninPage = () => {
 
     const result = await signIn(payload);
     if (result.status === 200) {
-      localStorage.setItem("token",result.data.payload.data.token)
+      localStorage.setItem("token", result.data.payload.data.token);
       toast.success(result.data.metadata.message);
-      
-      setTimeout(() => {
 
+      setTimeout(() => {
         navigate(path);
       }, 2000);
     } else {
