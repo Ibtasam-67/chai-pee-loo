@@ -12,34 +12,26 @@ import CustomTextField from "../../common/textField";
 import { useDispatch, useSelector } from "react-redux";
 
 const EveningTeaModal = () => {
-  const [alldata, setAllData] = useState();
+  const [alldata, setAllData] = useState({});
   const user = useSelector((state) => state?.user?.data?.data?.payload?.data?.user);
-
   const type = useSelector((state) => state?.evening?.data);
-  console.log(type);
+
   const [userName, setUserName] = useState(user?.userName);
   const [allOrders, setAllOrders] = useState([]);
+  const [createloading, setCreateloading] = useState(false);
+  const [deleteloading, setDeleteloading] = useState(false);
+  const [updateloading, setUpdateloading] = useState(false);
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    getAllEmployers();
-  }, []);
-  const getAllEmployers = async () => {
-    const result = await getEmployeeOrder(type, user?.email);
-    setAllOrders(result?.data?.payload?.data);
-    setAllData(result?.data?.payload?.data[0]);
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
-
+    setCreateloading(true);
     let date = new Date().toLocaleString("en-US", {
       timeZone: "Asia/Karachi",
       hourCycle: "h24"
     });
     date = date + "Z";
-
     const payload = {
       email: user?.email,
       employeeName: user?.userName,
@@ -50,16 +42,20 @@ const EveningTeaModal = () => {
     };
     const result = await createOrder(payload);
     if (result.status === 200) {
+      const res = await getEmployeeOrder(type, user?.email);
+      setAllOrders(res?.data?.payload?.data);
+      setAllData(res?.data?.payload?.data[0]);
       toast.success(result?.data?.metadata?.message);
     } else {
       toast.error(result?.response?.data?.metadata?.message);
     }
     dispatch(addOrder(payload));
-    setAllData("");
+    setCreateloading(false);
   };
 
   const onEdit = async (e) => {
     e.preventDefault();
+    setUpdateloading(true);
     const newOrder = {
       _id: alldata?._id,
       teaVolume: alldata?.teaVolume,
@@ -67,25 +63,42 @@ const EveningTeaModal = () => {
     };
     const order = await updateOrders(newOrder);
     if (order.status === 200) {
-      toast.success(order.data.metadata.message);
+      toast.success(order?.data?.metadata?.message);
     } else {
-      toast.error(order.response.data.metadata.message);
+      toast.error(order?.response?.data?.metadata?.message);
     }
     dispatch(updateOrder(newOrder));
-    setAllData("");
+    setUpdateloading(false);
   };
 
   const onDelete = async (e) => {
     e.preventDefault();
+    setDeleteloading(true);
     const order = await deleteOrders(alldata?._id);
     if (order.status === 200) {
-      toast.success(order.data.metadata.message);
+      toast.success(order?.data?.metadata?.message);
     } else {
-      toast.error(order.response.data.metadata.message);
+      toast.error(order?.data?.metadata?.message);
     }
     dispatch(deleteOrder(order, alldata?._id));
-    setAllData("");
+    setDeleteloading(false);
+    setAllData({
+      ...alldata,
+      teaVolume: "",
+      sugerQuantity: "",
+      employeeName: ""
+    });
   };
+
+  useEffect(() => {
+    getAllEmployers();
+  }, []);
+  const getAllEmployers = async () => {
+    const result = await getEmployeeOrder(type, user?.email);
+    setAllOrders(result?.data?.payload?.data);
+    setAllData(result?.data?.payload?.data[0]);
+  };
+
   return (
     <Box>
       <Toaster position="top-right" reverseOrder={true} />
@@ -101,7 +114,7 @@ const EveningTeaModal = () => {
               marginTop: "8%",
               boxShadow: "20px"
             }}>
-            Tea Requirements evening
+            Tea Requirements
           </Typography>
           <Divider sx={{ marginTop: "5%" }} />
           <Box
@@ -134,8 +147,8 @@ const EveningTeaModal = () => {
               }}
               fullWidth
               label="Tea">
-              <MenuItem value={"Half-Cup"}>Half Cup </MenuItem>
-              <MenuItem value={"Full-Cup"}>Full Cup </MenuItem>
+              <MenuItem value={`Half-Cup`}>Half Cup </MenuItem>
+              <MenuItem value={`Full-Cup`}>Full Cup </MenuItem>
             </Select>
             <CustomTextField
               name="Sugar"
@@ -157,13 +170,13 @@ const EveningTeaModal = () => {
                 marginTop: "1rem"
               }}>
               <Grid item xs={4}>
-                <CustomButton text="Order" onClick={onSubmit} />
+                <CustomButton text="Order" onClick={onSubmit} loading={createloading} />
               </Grid>
               <Grid item xs={4}>
-                <CustomButton text="Edit" onClick={onEdit} />
+                <CustomButton text="Edit" onClick={onEdit} loading={updateloading} />
               </Grid>
               <Grid item xs={4}>
-                <CustomButton text="Delete" onClick={onDelete} />
+                <CustomButton text="Delete" onClick={onDelete} loading={deleteloading} />
               </Grid>
             </Grid>
           </Box>

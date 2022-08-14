@@ -72,7 +72,7 @@ const AdminLanding = () => {
             src="cup.jpg"
             path="/eveningteaorder"
             onClick={placeOrderMethodEveningAdmin("Evening-Tea")}
-            disabled={inTime(eveningResultStart, eveningResultEnd)}
+            disabled={!inTime(eveningResultStart, eveningResultEnd)}
           />
         </Grid>
       </Grid>

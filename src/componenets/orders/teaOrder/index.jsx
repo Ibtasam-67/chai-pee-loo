@@ -37,7 +37,6 @@ const TeaOrder = () => {
       .then((res) => {
         const products = res.data.payload.data;
         setProducts(products);
-        console.log(res);
       });
   };
 
@@ -96,7 +95,7 @@ const TeaOrder = () => {
                       ).map((product) => {
                         return (
                           <TableRow
-                            key={product.name}
+                            key={product._id}
                             sx={{
                               "&:last-child td, &:last-child th": { border: 0 }
                             }}>

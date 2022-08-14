@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Nav = () => {
   const navigate = useNavigate();
   const logOut = () => {
-    window.localStorage.removeItem("token");
+    window.localStorage.removeItem("email");
     navigate("/adminsignin");
   };
   return (

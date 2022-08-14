@@ -50,7 +50,7 @@ const Landing = () => {
             src="cup.jpg"
             path="/teamodal"
             onClick={placeOrderMethodMorning("Morning-Tea")}
-            disabled={inTime(morningTeaStart, morningTeaEnd)}
+            disabled={!inTime(morningTeaStart, morningTeaEnd)}
           />
         </Grid>
         <Grid item md={3} mt="2%">
@@ -61,7 +61,7 @@ const Landing = () => {
             src="images.jpg"
             path="/lunchmodal"
             onClick={placeOrderMethodLunch("Lunch")}
-            disabled={inTime(lunchStart, lunchEnd)}
+            disabled={!inTime(lunchStart, lunchEnd)}
           />
         </Grid>
         <Grid item md={3} mt="2%">
