@@ -1,5 +1,5 @@
 const initialState = {
-  data: {},
+  data: {}
 };
 
 const userReducer = (state = initialState, action) => {
@@ -7,7 +7,7 @@ const userReducer = (state = initialState, action) => {
     case "ADD_ USER":
       return {
         ...state,
-        data: { ...state.data, ...action.payload },
+        data: { ...state.data, ...action.payload }
       };
     default:
       return state;

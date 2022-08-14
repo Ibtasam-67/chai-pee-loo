@@ -6,7 +6,7 @@ import {
   CREATE_ORDER,
   UPDATE_ORDER_BY_ID,
   DELETE_ORDER,
-  GET_EMPLOYE_ORDER,
+  GET_EMPLOYE_ORDER
 } from "../utilities/constants";
 import { setHeaders } from "../common/helpers/index";
 
@@ -57,10 +57,15 @@ export const updateOrders = async (newOrder) => {
 
 export const deleteOrders = async (_id) => {
   try {
-    return await axios.post(
-      ` ${BASE_URL}${DELETE_ORDER}${_id}`,
-      _id,
-      setHeaders()
+    return await axios.post(` ${BASE_URL}${DELETE_ORDER}${_id}`, _id, setHeaders());
+  } catch (error) {
+    return error;
+  }
+};
+export const getAllOrders = async (orderType) => {
+  try {
+    return await axios.get(
+      `https://lu-meal-stage.herokuapp.com/api/admin/get-available-orders/${orderType}`
     );
   } catch (error) {
     return error;

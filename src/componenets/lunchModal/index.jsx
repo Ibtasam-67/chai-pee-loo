@@ -1,30 +1,22 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Box, Container, Card, Typography, Divider, Grid } from "@mui/material";
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField/index";
 import Header from "../header";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  createOrder,
-  deleteOrders,
-  updateOrders,
-} from "../../services/dataServices";
+import { createOrder, deleteOrders, updateOrders } from "../../services/dataServices";
 import { getEmployeeOrder } from "../../services/dataServices";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
-import {
-  addOrder,
-  deleteOrder,
-  updateOrder,
-} from "../../redux/actions/orderAction";
+import { addOrder, deleteOrder, updateOrder } from "../../redux/actions/orderAction";
 
 const LunchModal = () => {
   const [alldata, setAllData] = useState();
-  const user = useSelector(
-    (state) => state?.user?.data?.data?.payload?.data?.user
-  );
+  const user = useSelector((state) => state?.user?.data?.data?.payload?.data?.user);
 
-  const type = useSelector((state) => state?.type?.data);
+  const type = useSelector((state) => state?.lunchType?.data);
+  console.log(type);
 
   const [userName, setuserName] = useState(user?.userName);
   const [allOrders, setAllOrders] = useState([]);
@@ -44,7 +36,8 @@ const LunchModal = () => {
     e.preventDefault();
 
     let date = new Date().toLocaleString("en-US", {
-      hourCycle: "h24",
+      timeZone: "Asia/Karachi",
+      hourCycle: "h24"
     });
     date = date + "Z";
 
@@ -55,7 +48,7 @@ const LunchModal = () => {
       orderType: type,
       extras: alldata?.extras,
       rotiQuantity: alldata?.rotiQuantity,
-      amount: alldata?.amount,
+      amount: alldata?.amount
     };
     const result = await createOrder(payload);
 
@@ -74,7 +67,7 @@ const LunchModal = () => {
     const newOrder = {
       _id: alldata?._id,
       teaVolume: alldata.teaVolume,
-      sugerQuantity: alldata.sugerQuantity,
+      sugerQuantity: alldata.sugerQuantity
     };
     const order = await updateOrders(newOrder);
     if (order.status === 200) {
@@ -97,13 +90,10 @@ const LunchModal = () => {
 
       <Header />
       <Container maxWidth="xs">
-        <Card
-          sx={{ maxWidth: 545, height: 550, boxShadow: 24, marginTop: "15%" }}
-        >
+        <Card sx={{ maxWidth: 545, height: 550, boxShadow: 24, marginTop: "15%" }}>
           <Typography
             variant="h5"
-            sx={{ fontWeight: "600", fontFamily: "monospace", marginTop: "6%" }}
-          >
+            sx={{ fontWeight: "600", fontFamily: "monospace", marginTop: "6%" }}>
             Order Your Lunch
           </Typography>
           <Divider sx={{ marginTop: "5%" }} />
@@ -115,9 +105,8 @@ const LunchModal = () => {
               flexDirection: "column",
               alignItems: "center",
               mx: "2px",
-              transform: "scale(0.8)",
-            }}
-          >
+              transform: "scale(0.8)"
+            }}>
             <CustomTextField
               name="username"
               id="username"
@@ -168,9 +157,8 @@ const LunchModal = () => {
               style={{
                 display: "flex",
                 justifyContent: "space-around",
-                marginTop: "1rem",
-              }}
-            >
+                marginTop: "1rem"
+              }}>
               <Grid item xs={3}>
                 <CustomButton text="Order" isAuth onClick={onSubmit} />
               </Grid>

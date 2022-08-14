@@ -5,16 +5,20 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "../reducers/userReducer";
 import orderReducer from "../reducers/orderReducer";
-import typeReducer from "../reducers/typeReducer";
+import LunchTypeReducer from "../reducers/lunchTypeReducer";
+import morningTeaReducer from "../reducers/morningTea";
+import eveningTea from "../reducers/eveningReducer";
 const middleware = [thunk];
 const Reducer = combineReducers({
   user: userReducer,
   order: orderReducer,
-  type: typeReducer,
+  morning: morningTeaReducer,
+  lunchType: LunchTypeReducer,
+  evening: eveningTea
 });
 const persistConfig = {
   key: "root",
-  storage,
+  storage
 };
 const persistedReducer = persistReducer(persistConfig, Reducer);
 export const store = createStore(

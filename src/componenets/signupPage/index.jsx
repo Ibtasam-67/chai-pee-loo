@@ -23,7 +23,7 @@ const SignupPage = () => {
     const payload = {
       userName: userName,
       email: email,
-      password: password,
+      password: password
     };
     const result = await signUp(payload);
     if (result.status === 200) {
@@ -46,10 +46,7 @@ const SignupPage = () => {
             alt="luminogicsLogo"
             style={{ height: "50px", width: "50px", marginTop: "6%" }}
           />
-          <Typography
-            variant="h5"
-            sx={{ fontWeight: "600", fontFamily: "Inter", marginTop: "8%" }}
-          >
+          <Typography variant="h5" sx={{ fontWeight: "600", fontFamily: "Inter", marginTop: "8%" }}>
             Welcome To Luminogics
           </Typography>
           <Box
@@ -59,9 +56,8 @@ const SignupPage = () => {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              transform: "scale(0.8)",
-            }}
-          >
+              transform: "scale(0.8)"
+            }}>
             <CustomTextField
               name="User Name"
               id="username"
@@ -95,15 +91,14 @@ const SignupPage = () => {
             />
           </Box>
           <Grid>
-            <span>Don't have an account? </span>
+            <span> Do not have an account? </span>
             <Link to="/signin">
               <span
                 style={{
                   fontWeight: "600",
                   textDecoration: "none",
-                  color: "#2196f3",
-                }}
-              >
+                  color: "#2196f3"
+                }}>
                 Sign In
               </span>
             </Link>

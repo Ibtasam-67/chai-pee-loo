@@ -11,11 +11,12 @@ import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField";
 import { useDispatch, useSelector } from "react-redux";
 
-const TeaModal = () => {
+const EveningTeaModal = () => {
   const [alldata, setAllData] = useState();
   const user = useSelector((state) => state?.user?.data?.data?.payload?.data?.user);
 
-  const type = useSelector((state) => state?.morning?.data);
+  const type = useSelector((state) => state?.evening?.data);
+  console.log(type);
   const [userName, setUserName] = useState(user?.userName);
   const [allOrders, setAllOrders] = useState([]);
 
@@ -100,7 +101,7 @@ const TeaModal = () => {
               marginTop: "8%",
               boxShadow: "20px"
             }}>
-            Tea Requirements
+            Tea Requirements evening
           </Typography>
           <Divider sx={{ marginTop: "5%" }} />
           <Box
@@ -172,4 +173,4 @@ const TeaModal = () => {
   );
 };
 
-export default TeaModal;
+export default EveningTeaModal;

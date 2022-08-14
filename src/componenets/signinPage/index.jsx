@@ -9,11 +9,8 @@ import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/actions/userAction";
- 
-
 
 const SigninPage = () => {
-  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,7 +24,7 @@ const SigninPage = () => {
     setLoading(true);
     const payload = {
       email: email,
-      password: password,
+      password: password
     };
 
     const result = await signIn(payload);
@@ -55,8 +52,7 @@ const SigninPage = () => {
           />
           <Typography
             variant="h5"
-            style={{ fontWeight: "600", fontFamily: "Inter", marginTop: "6%" }}
-          >
+            style={{ fontWeight: "600", fontFamily: "Inter", marginTop: "6%" }}>
             Welcome To Luminogics
           </Typography>
           <Box
@@ -67,9 +63,8 @@ const SigninPage = () => {
               flexDirection: "column",
               alignItems: "center",
               mx: "2px",
-              transform: "scale(0.8)",
-            }}
-          >
+              transform: "scale(0.8)"
+            }}>
             <CustomTextField
               name="Email"
               id="email"
@@ -101,9 +96,8 @@ const SigninPage = () => {
                   style={{
                     fontWeight: "600",
                     textDecoration: "none",
-                    color: "#2196f3",
-                  }}
-                >
+                    color: "#2196f3"
+                  }}>
                   Admin SignIn
                 </span>
               </Link>
@@ -113,10 +107,9 @@ const SigninPage = () => {
                 <span
                   style={{
                     fontWeight: "600",
-                    textDecoration: "none ",
-                    color: "#2196f3",
-                  }}
-                >
+                    textDecorationLine: "none ",
+                    color: "#2196f3"
+                  }}>
                   Sign Up
                 </span>
               </Link>
