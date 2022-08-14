@@ -50,6 +50,7 @@ const EveningTeaModal = () => {
     } else {
       toast.error(result?.response?.data?.metadata?.message);
     }
+
     dispatch(addOrder(payload));
     setCreateloading(false);
   };
@@ -79,15 +80,14 @@ const EveningTeaModal = () => {
     if (order.status === 200) {
       toast.success(order?.data?.metadata?.message);
     } else {
-      toast.error(order?.data?.metadata?.message);
+      toast.error(order?.response?.data?.metadata?.message);
     }
     dispatch(deleteOrder(order, alldata?._id));
     setDeleteloading(false);
     setAllData({
       ...alldata,
       teaVolume: "",
-      sugerQuantity: "",
-      employeeName: ""
+      sugerQuantity: ""
     });
   };
 
@@ -140,7 +140,7 @@ const EveningTeaModal = () => {
             <Select
               labelId="demo-simple-select-autowidth-label"
               id="demo-simple-select-autowidth"
-              value={alldata?.teaVolume}
+              defaultValue={alldata?.teaVolume}
               onChange={(e) => {
                 let d = { ...alldata };
                 d.teaVolume = e.target.value;
@@ -152,6 +152,7 @@ const EveningTeaModal = () => {
               <MenuItem value={`Full-Cup`}>Full Cup </MenuItem>
             </Select>
             <CustomTextField
+              InputProps
               name="Sugar"
               id="sugar"
               label="Sugar Quantity"

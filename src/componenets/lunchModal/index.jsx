@@ -46,7 +46,6 @@ const LunchModal = () => {
       amount: alldata?.amount
     };
     const result = await createOrder(payload);
-
     if (result.status === 200) {
       const result = await getEmployeeOrder(type, user?.email);
       setAllOrders(result?.data?.payload?.data);
@@ -148,6 +147,7 @@ const LunchModal = () => {
               }}
             />
             <CustomTextField
+              InputProps
               name="Roti Quantity"
               id="roti"
               label="Roti Quantity"
@@ -160,6 +160,7 @@ const LunchModal = () => {
               }}
             />
             <CustomTextField
+              InputProps
               name="Amount Paid"
               id="amout"
               label="Amount Paid"

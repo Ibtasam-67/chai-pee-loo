@@ -32,7 +32,7 @@ const LunchOrder = () => {
   const type = useSelector((state) => state?.lunchType?.data);
   const getUsers = async (type) => {
     axios
-      .get(`https://lu-meal-stage.herokuapp.com/api/admin/get-available-orders/lunch`)
+      .get(`https://lu-meal-stage.herokuapp.com/api/admin/get-available-orders/Lunch`)
       .then((res) => {
         const products = res.data.payload.data;
         setProducts(products);
@@ -100,8 +100,9 @@ const LunchOrder = () => {
                               "&:last-child td, &:last-child th": { border: 0 }
                             }}>
                             <CustomTableCell name={product.employeeName} />
-                            <CustomTableCell name={product.teaVolume} />
-                            <CustomTableCell name={product.sugerQuantity} />
+                            <CustomTableCell name={product.extras} />
+                            <CustomTableCell name={product.rotiQuantity} />
+                            <CustomTableCell name={product.amount} />
                           </TableRow>
                         );
                       })}

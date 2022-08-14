@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField, Typography } from "@mui/material";
 
-const CustomTextField = ({ name, id, label, type, onChange, value }) => {
+const CustomTextField = ({ name, id, label, type, onChange, value, InputProps }) => {
   return (
     <>
       <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>{name}</Typography>
@@ -15,6 +15,7 @@ const CustomTextField = ({ name, id, label, type, onChange, value }) => {
         autoFocus
         onChange={onChange}
         value={value}
+        InputProps={{ inputProps: { min: 0, max: 10 } }}
       />
     </>
   );

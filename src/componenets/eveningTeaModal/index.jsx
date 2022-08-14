@@ -78,7 +78,7 @@ const EveningTeaModal = () => {
     if (order.status === 200) {
       toast.success(order?.data?.metadata?.message);
     } else {
-      toast.error(order?.data?.metadata?.message);
+      toast.error(order?.response?.data?.metadata?.message);
     }
     dispatch(deleteOrder(order, alldata?._id));
     setDeleteloading(false);
@@ -151,6 +151,7 @@ const EveningTeaModal = () => {
               <MenuItem value={`Full-Cup`}>Full Cup </MenuItem>
             </Select>
             <CustomTextField
+              InputProps
               name="Sugar"
               id="sugar"
               label="Sugar Quantity"
