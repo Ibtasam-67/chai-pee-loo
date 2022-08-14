@@ -37,7 +37,6 @@ const EveneingTeaOrder = () => {
       .then((res) => {
         const products = res.data.payload.data;
         setProducts(products);
-        console.log(products);
       });
   };
 
