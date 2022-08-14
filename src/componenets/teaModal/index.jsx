@@ -14,14 +14,18 @@ import {
   Select,
   Grid,
 } from "@mui/material";
-import CustomButton from "../../common/button";
-import CustomTextField from "../../common/textField";
-import { useDispatch, useSelector } from "react-redux";
-import { addTea, deleteTea, updateTea } from "../../redux/actions/teaAction";
+import {
+  addOrder,
+  deleteOrder,
+  updateOrder,
+} from "../../redux/actions/orderAction";
 import Header from "../header";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { getEmployeeOrder } from "../../services/dataServices";
+import CustomButton from "../../common/button";
+import CustomTextField from "../../common/textField";
+import { useDispatch, useSelector } from "react-redux";
 
 const TeaModal = () => {
   const [alldata, setAllData] = useState();
@@ -31,7 +35,7 @@ const TeaModal = () => {
 
   const type = useSelector((state) => state?.type?.data);
 
-  const [loading, setLoading] = useState(false);
+  const [userName, setUserName] = useState(user?.userName);
   const [allOrders, setAllOrders] = useState([]);
 
   const dispatch = useDispatch();
@@ -48,46 +52,56 @@ const TeaModal = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    let date = new Date();
+    let date = new Date().toLocaleString("en-US", {
+      hourCycle: "h24"
+    });
+    date = date + "Z";
 
     const payload = {
       email: user?.email,
       employeeName: user?.userName,
-      sugerQuantity: alldata.sugerQuantity,
-      teaVolume: alldata.teaVolume,
+      sugerQuantity: alldata?.sugerQuantity,
+      teaVolume: alldata?.teaVolume,
       orderDate: date,
       orderType: type,
     };
     const result = await createOrder(payload);
-
     if (result.status === 200) {
-      toast.success(result.response.data?.metadata.message);
+      toast.success(result.data.metadata.message);
     } else {
       toast.error(result.response.data.metadata.message);
     }
-    dispatch(addTea(payload));
+    dispatch(addOrder(payload));
+    setAllData("");
   };
 
   const onEdit = async (e) => {
     e.preventDefault();
     const newOrder = {
       _id: alldata?._id,
-      teaVolume: alldata.teaVolume,
-      sugerQuantity: alldata.sugerQuantity,
+      teaVolume: alldata?.teaVolume,
+      sugerQuantity: alldata?.sugerQuantity,
     };
     const order = await updateOrders(newOrder);
     if (order.status === 200) {
       toast.success(order.data.metadata.message);
+    } else {
+      toast.error(order.response.data.metadata.message);
     }
-
-    dispatch(updateTea(newOrder));
+    dispatch(updateOrder(newOrder));
+    setAllData("");
   };
 
   const onDelete = async (e) => {
     e.preventDefault();
     const order = await deleteOrders(alldata?._id);
-    dispatch(deleteTea(order, alldata?._id));
-    setAllData(null);
+    if (order.status === 200) {
+      toast.success(order.data.metadata.message);
+    } else {
+      toast.error(order.response.data.metadata.message);
+    }
+    dispatch(deleteOrder(order, alldata?._id));
+    setAllData("");
   };
   return (
     <Box>
@@ -126,12 +140,8 @@ const TeaModal = () => {
               id="UserName"
               label="UserName"
               type="name"
-              value={alldata?.employeeName}
-              onChange={(e) => {
-                let d = { ...alldata };
-                d.employeeName = e.target.value;
-                setAllData(d);
-              }}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
             />
             <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>
               Chay Quantity

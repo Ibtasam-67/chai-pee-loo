@@ -8,7 +8,6 @@ const Header = () => {
   const logOut=()=>{
     window.localStorage.removeItem("token")
     navigate("/signin")
-    console.log("first")
   }
   return (
     <Box sx={{ flexGrow: 1 }} data-testid="header-1">

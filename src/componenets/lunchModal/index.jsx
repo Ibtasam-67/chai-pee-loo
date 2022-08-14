@@ -1,42 +1,103 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Container, Card, Typography, Divider, Grid } from "@mui/material";
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField/index";
-import { useDispatch } from "react-redux";
-import { addLunch } from "../../redux/actions/lunchAction";
-import { useNavigate } from "react-router-dom";
 import Header from "../header";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  createOrder,
+  deleteOrders,
+  updateOrders,
+} from "../../services/dataServices";
+import { getEmployeeOrder } from "../../services/dataServices";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import {
+  addOrder,
+  deleteOrder,
+  updateOrder,
+} from "../../redux/actions/orderAction";
 
 const LunchModal = () => {
+  const [alldata, setAllData] = useState();
+  const user = useSelector(
+    (state) => state?.user?.data?.data?.payload?.data?.user
+  );
+
+  const type = useSelector((state) => state?.type?.data);
+
+  const [userName, setuserName] = useState(user?.userName);
+  const [allOrders, setAllOrders] = useState([]);
+
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [userName, setUserName] = useState("");
-  const [description, setDescription] = useState("");
-  const [roti, setRoti] = useState(0);
-  const [amount, setAmount] = useState(0);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    getAllEmployers();
+  }, []);
+  const getAllEmployers = async () => {
+    const result = await getEmployeeOrder(type, user?.email);
+    setAllOrders(result?.data?.payload?.data);
+    setAllData(result?.data?.payload?.data[0]);
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+
+    let date = new Date().toLocaleString("en-US", {
+      hourCycle: "h24",
+    });
+    date = date + "Z";
+
     const payload = {
-      userName,
-      setUserName,
-      description: description,
-      roti: roti,
-      amount: amount,
+      email: user?.email,
+      employeeName: user?.userName,
+      orderDate: date,
+      orderType: type,
+      extras: alldata?.extras,
+      rotiQuantity: alldata?.rotiQuantity,
+      amount: alldata?.amount,
     };
-    dispatch(addLunch(payload));
-    setData([...data, payload]);
-    setRoti("");
-    setAmount("");
-    setAmount("");
-    setLoading(false);
-    navigate("/lunchorder");
+    const result = await createOrder(payload);
+
+    if (result.status === 200) {
+      toast.success(result.response.data?.metadata.message);
+    } else {
+      toast.error(result.response.data.metadata.message);
+    }
+
+    dispatch(addOrder(payload));
+  };
+
+  const onEdit = async (e) => {
+    e.preventDefault();
+
+    const newOrder = {
+      _id: alldata?._id,
+      teaVolume: alldata.teaVolume,
+      sugerQuantity: alldata.sugerQuantity,
+    };
+    const order = await updateOrders(newOrder);
+
+    console.log(order);
+
+    if (order.status === 200) {
+      toast.success(order.data.metadata.message);
+    }
+
+    dispatch(updateOrder(newOrder));
+  };
+
+  const onDelete = async (e) => {
+    e.preventDefault();
+    const order = await deleteOrders(alldata?._id);
+    dispatch(deleteOrder(order, alldata?._id));
+    setAllData(null);
   };
 
   return (
     <Box>
+      <Toaster position="top-right" reverseOrder={true} />
+
       <Header />
       <Container maxWidth="xs">
         <Card
@@ -66,31 +127,43 @@ const LunchModal = () => {
               label="Username"
               type="name"
               value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              onChange={(e) => setuserName(e.target.value)}
             />
             <CustomTextField
               name="Description"
               id="description"
               label="Description"
               type="name"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              value={alldata?.extras}
+              onChange={(e) => {
+                let d = { ...alldata };
+                d.extras = e.target.value;
+                setAllData(d);
+              }}
             />
             <CustomTextField
               name="Roti Quantity"
               id="roti"
               label="Roti Quantity"
               type="number"
-              value={roti}
-              onChange={(e) => setRoti(e.target.value)}
+              value={alldata?.rotiQuantity}
+              onChange={(e) => {
+                let d = { ...alldata };
+                d.rotiQuantity = parseInt(e.target.value);
+                setAllData(d);
+              }}
             />
             <CustomTextField
               name="Amount Paid"
               id="amout"
               label="Amount Paid"
               type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              value={alldata?.amount}
+              onChange={(e) => {
+                let d = { ...alldata };
+                d.amount = parseInt(e.target.value);
+                setAllData(d);
+              }}
             />
 
             <Grid
@@ -102,31 +175,13 @@ const LunchModal = () => {
               }}
             >
               <Grid item xs={3}>
-                <CustomButton
-                  text="Order"
-                  isAuth
-                  onClick={onSubmit}
-                  isEnable={!description || !roti || !amount || !userName}
-                  loading={loading}
-                />
+                <CustomButton text="Order" isAuth onClick={onSubmit} />
               </Grid>
               <Grid item xs={3}>
-                <CustomButton
-                  text="Edit"
-                  isAuth
-                  onClick={onSubmit}
-                  isEnable={!description || !roti || !amount || !userName}
-                  loading={loading}
-                />
+                <CustomButton text="Edit" onClick={onEdit} />
               </Grid>
               <Grid item xs={3}>
-                <CustomButton
-                  text="Delete"
-                  isAuth
-                  onClick={onSubmit}
-                  isEnable={!description || !roti || !amount || !userName}
-                  loading={loading}
-                />
+                <CustomButton text="Delete" onClick={onDelete} />
               </Grid>
             </Grid>
           </Box>

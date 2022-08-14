@@ -1,26 +1,26 @@
-export const addTea = (tea) => async (dispatch) => {
+export const addOrder = (tea) => async (dispatch) => {
     try {
       dispatch({
-        type: "ADD_TEA",
+        type: "ADD_ORDER",
         payload: tea
       });
     } catch (err) {
       console.log(err);
     }
   };
-  export const deleteTea = (id) => (dispatch) => {
+  export const deleteOrder = (id) => (dispatch) => {
     try {
       dispatch({
-        type: "DELETE_TEA",
+        type: "DELETE_ORDER",
         payload: id,
       });
     } catch (error) {}
   };
-  export const updateTea = (tea) => (dispatch) => {
+  export const updateOrder = (tea) => (dispatch) => {
     
     try {
       dispatch({
-        type: "UPDATE_TEA",
+        type: "UPDATE_ORDER",
         payload: tea,
       });
     } catch (error) {

@@ -2,21 +2,21 @@ const initialState = {
   data: [],
 };
  
-const teaReducer = (state = initialState, action) => {
+const orderReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "ADD_TEA":
+    case "ADD_ORDER":
       return {
         ...state,
         data: [...state.data, action.payload],
       };
-      case "DELETE_TEA":
+      case "DELETE_ORDER":
         return {
           ...state,
           data: state.data.filter((li) => li.id !== action.payload),
         };
       
          
-    case "UPDATE_TEA":
+    case "UPDATE_ORDER":
       return {
         ...state,
         data: [...state.data, action.payload],
@@ -26,4 +26,4 @@ const teaReducer = (state = initialState, action) => {
   }
 };
 
-export default teaReducer;
+export default orderReducer;

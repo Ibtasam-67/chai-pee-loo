@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { Box, Container, Card, Typography,Grid } from "@mui/material";
+import { Box, Container, Card, Typography, Grid } from "@mui/material";
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField";
 import { signUp } from "../../services/dataServices";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
-import {Link} from "react-router-dom"
-
+import { Link } from "react-router-dom";
 
 const SignupPage = () => {
   const [userName, setUserName] = useState("");
@@ -28,10 +27,7 @@ const SignupPage = () => {
     };
     const result = await signUp(payload);
     if (result.status === 200) {
-      toast.success(result.data.metadata.message);
-      setTimeout(() => {
-        navigate(path);
-      }, 2000);
+      navigate(path);
     } else {
       toast.error(result.response.data.metadata.message);
     }

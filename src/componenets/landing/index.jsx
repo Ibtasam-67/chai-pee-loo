@@ -14,8 +14,8 @@ const Landing = () => {
   let start = 9 * 60 + 0;
   let end = 11 * 60 + 0;
   function inTime(start, end) {
-    var now = new Date();
-    var time = now.getHours() * 60 + now.getMinutes();
+    let now = new Date();
+    let time = now.getHours() * 60 + now.getMinutes();
     return time >= start && time < end;
   }
   return (
