@@ -77,9 +77,6 @@ const LunchModal = () => {
       sugerQuantity: alldata.sugerQuantity,
     };
     const order = await updateOrders(newOrder);
-
-    console.log(order);
-
     if (order.status === 200) {
       toast.success(order.data.metadata.message);
     }
