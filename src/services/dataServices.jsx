@@ -1,5 +1,13 @@
 import axios from "axios";
-import { BASE_URL, SIGN_UP } from "../utilities/constants";
+import {
+  BASE_URL,
+  SIGN_IN,
+  SIGN_UP,
+  CREATE_ORDER,
+  UPDATE_ORDER_BY_ID,
+  DELETE_ORDER,
+  GET_EMPLOYE_ORDER,
+} from "../utilities/constants";
 import { setHeaders } from "../common/helpers/index";
 
 export const signUp = async (payload) => {
@@ -11,10 +19,7 @@ export const signUp = async (payload) => {
 };
 export const signIn = async (payload) => {
   try {
-    return await axios.post(
-      "https://lu-meal-stage.herokuapp.com/api/users/log-in  ",
-      payload
-    );
+    return await axios.post(BASE_URL + SIGN_IN, payload);
   } catch (error) {
     return error;
   }
@@ -22,11 +27,7 @@ export const signIn = async (payload) => {
 
 export const createOrder = async (payload) => {
   try {
-    return await axios.post(
-      "https://lu-meal-stage.herokuapp.com/api/users/create-order",
-      payload,
-      setHeaders()
-    );
+    return await axios.post(BASE_URL + CREATE_ORDER, payload, setHeaders());
   } catch (error) {
     return error;
   }
@@ -34,7 +35,7 @@ export const createOrder = async (payload) => {
 export const getEmployeeOrder = async (orderType, email) => {
   try {
     return await axios.get(
-      `https://lu-meal-stage.herokuapp.com/api/users/get-employee-order?email=${email}&orderType=${orderType}`,
+      ` ${BASE_URL}${GET_EMPLOYE_ORDER}?email=${email}&orderType=${orderType}`,
       setHeaders()
     );
   } catch (error) {
@@ -45,7 +46,7 @@ export const getEmployeeOrder = async (orderType, email) => {
 export const updateOrders = async (newOrder) => {
   try {
     return await axios.post(
-      `https://lu-meal-stage.herokuapp.com/api/users/update-order-by-id/${newOrder._id}`,
+      ` ${BASE_URL}${UPDATE_ORDER_BY_ID}${newOrder._id}`,
       newOrder,
       setHeaders()
     );
@@ -54,11 +55,11 @@ export const updateOrders = async (newOrder) => {
   }
 };
 
-export const deleteOrders = async (id) => {
+export const deleteOrder = async (_id) => {
   try {
     return await axios.post(
-      `https://lu-meal-stage.herokuapp.com/api/users/delete-order/${id}`,
-      id,
+      ` ${BASE_URL}${DELETE_ORDER}${_id}`,
+      _id,
       setHeaders()
     );
   } catch (error) {

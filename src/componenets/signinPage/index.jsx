@@ -30,13 +30,9 @@ const SigninPage = () => {
     const result = await signIn(payload);
     if (result.status === 200) {
       localStorage.setItem("token", result.data.payload.data.token);
-      toast.success(result.data.metadata.message);
-
-      setTimeout(() => {
-        navigate(path);
-      }, 2000);
+      navigate(path);
     } else {
-      toast.error(result.response.data.metadata.message);
+      toast.error(result?.response?.data?.metadata?.message);
     }
     dispatch(addUser(result));
     setEmail("");

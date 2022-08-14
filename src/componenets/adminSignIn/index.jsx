@@ -5,6 +5,13 @@ import CustomTextField from "../../common/textField/index";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
+import {
+  ADMIN_EMAIL,
+  ADMIN_PASSWORD,
+  ADMIN_WRONG_EMAIL,
+  ADMIN_WRONG_PASSWORD,
+  ADMIN_WRONG_PASSWORD_EMAIL,
+} from "../../utilities/constants";
 
 const AdminSignIn = () => {
   const [email, setEmail] = useState("");
@@ -17,15 +24,15 @@ const AdminSignIn = () => {
     e.preventDefault();
     setLoading(true);
     e.preventDefault();
-    if (email === "faisal123@luminogics.com" && password === "faisal123") {
-      localStorage.setItem("email", "faisal123@luminogics.com");
+    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      localStorage.setItem("email", ADMIN_EMAIL);
       navigate("/order");
-    } else if (email !== "faisal123@luminogics.com") {
-      toast.error("Wrong Email Address");
-    } else if (password !== "faisal123") {
-      toast.error("Wrong password!");
+    } else if (email !== ADMIN_EMAIL) {
+      toast.error(ADMIN_WRONG_EMAIL);
+    } else if (password !== ADMIN_PASSWORD) {
+      toast.error(ADMIN_WRONG_PASSWORD);
     } else {
-      toast.error("Wrong Email and password!");
+      toast.error(ADMIN_WRONG_PASSWORD_EMAIL);
     }
     setEmail("");
     setPassword("");

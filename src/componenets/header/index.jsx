@@ -1,14 +1,12 @@
 import React from "react";
 import { Toolbar, AppBar, Typography, Box, Grid, Button } from "@mui/material";
-import { Link, Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-
+import { Link,useNavigate } from "react-router-dom";
+ 
 const Header = () => {
   const navigate=useNavigate()
   const logOut=()=>{
     window.localStorage.removeItem("token")
     navigate("/signin")
-    console.log("first")
   }
   return (
     <Box sx={{ flexGrow: 1 }} data-testid="header-1">

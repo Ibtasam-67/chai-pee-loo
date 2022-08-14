@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   createOrder,
-  deleteOrders,
+  deleteOrder,
   updateOrders,
 } from "../../services/dataServices";
 import {
@@ -48,22 +48,21 @@ const TeaModal = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    let date = new Date();
+    let date = "2022-08-13T12:00:00Z";
 
     const payload = {
       email: user?.email,
       employeeName: user?.userName,
-      sugerQuantity: alldata.sugerQuantity,
-      teaVolume: alldata.teaVolume,
+      sugerQuantity: alldata?.sugerQuantity,
+      teaVolume: alldata?.teaVolume,
       orderDate: date,
       orderType: type,
     };
     const result = await createOrder(payload);
-
     if (result.status === 200) {
-      toast.success(result.response.data?.metadata.message);
+      toast.success(result?.data?.metadata.message);
     } else {
-      toast.error(result.response.data.metadata.message);
+      toast.error(result?.response?.data?.metadata?.message);
     }
     dispatch(addTea(payload));
   };
@@ -72,12 +71,15 @@ const TeaModal = () => {
     e.preventDefault();
     const newOrder = {
       _id: alldata?._id,
-      teaVolume: alldata.teaVolume,
-      sugerQuantity: alldata.sugerQuantity,
+      teaVolume: alldata?.teaVolume,
+      sugerQuantity: alldata?.sugerQuantity,
     };
     const order = await updateOrders(newOrder);
+
     if (order.status === 200) {
-      toast.success(order.data.metadata.message);
+      toast.success(order?.data?.metadata?.message);
+    } else {
+      toast.error(order?.response?.data?.metadata?.message);
     }
 
     dispatch(updateTea(newOrder));
@@ -85,9 +87,15 @@ const TeaModal = () => {
 
   const onDelete = async (e) => {
     e.preventDefault();
-    const order = await deleteOrders(alldata?._id);
+    const order = await deleteOrder(alldata?._id);
+    if (order.status === 200) {
+      toast.success(order.data.metadata.message);
+    } else {
+      toast.error(order?.response?.data?.metadata?.message);
+    }
+    
     dispatch(deleteTea(order, alldata?._id));
-    setAllData(null);
+  
   };
   return (
     <Box>
@@ -148,8 +156,8 @@ const TeaModal = () => {
               fullWidth
               label="Tea"
             >
-              <MenuItem value={"Half-Cup"}>Half Cup </MenuItem>
-              <MenuItem value={"Full-Cup"}>Full Cup </MenuItem>
+              <MenuItem value={"half-cup"}>Half Cup </MenuItem>
+              <MenuItem value={"full-cup"}>Full Cup </MenuItem>
             </Select>
             <CustomTextField
               name="Sugar"
