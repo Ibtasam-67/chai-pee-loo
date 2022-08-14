@@ -1,14 +1,21 @@
 import React, { useState } from "react";
-import { Box, Container, Card, Typography } from "@mui/material";
+import { Box, Container, Card, Typography, Grid } from "@mui/material";
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField";
 import { signUp } from "../../services/dataServices";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const SignupPage = () => {
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+  const path = "/signin";
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +26,11 @@ const SignupPage = () => {
       password: password,
     };
     const result = await signUp(payload);
+    if (result.status === 200) {
+      navigate(path);
+    } else {
+      toast.error(result.response.data.metadata.message);
+    }
     setUserName("");
     setEmail("");
     setPassword("");
@@ -26,6 +38,7 @@ const SignupPage = () => {
   };
   return (
     <Box sx={{ marginTop: "4%" }}>
+      <Toaster position="top-right" reverseOrder={true} />
       <Container maxWidth="xs">
         <Card sx={{ maxWidth: 445, height: 600 }}>
           <img
@@ -73,8 +86,28 @@ const SignupPage = () => {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
-            <CustomButton onClick={onSubmit} text="Sign Up" isAuth />
+            <CustomButton
+              onClick={onSubmit}
+              text="Sign Up"
+              isAuth
+              loading={loading}
+              isEnable={!userName || !email || !password}
+            />
           </Box>
+          <Grid>
+            <span>Don't have an account? </span>
+            <Link to="/signin">
+              <span
+                style={{
+                  fontWeight: "600",
+                  textDecoration: "none",
+                  color: "#2196f3",
+                }}
+              >
+                Sign In
+              </span>
+            </Link>
+          </Grid>
         </Card>
       </Container>
     </Box>
