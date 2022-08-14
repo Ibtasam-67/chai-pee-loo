@@ -26,7 +26,7 @@ const AdminSignIn = () => {
     e.preventDefault();
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       localStorage.setItem("email", ADMIN_EMAIL);
-      navigate("/order");
+      navigate("/adminlanding");
     } else if (email !== ADMIN_EMAIL) {
       toast.error(ADMIN_WRONG_EMAIL);
     } else if (password !== ADMIN_PASSWORD) {

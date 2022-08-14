@@ -12,11 +12,11 @@ import {
   TablePagination,
 } from "@mui/material";
 import { Container } from "@mui/system";
-import Header from "../../header/index";
 import Loader from "../../../common/loader/loader";
 import CustomTableCell from "../../../common/tableCell/tableCell";
 import Pagination from "../../../common/pagination/pagination";
 import axios from "axios";
+import Nav from "../../nav";
  
 function TablePaginationActions(props) {
   return <Pagination props={props} />;
@@ -57,7 +57,7 @@ const Orders = () => {
 
   return (
     <>
-      <Header />
+    <Nav/>
       <Container>
         {loading ? (
           <Loader />

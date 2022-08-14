@@ -1,11 +1,11 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import CustomCard from "../../common/card/index";
-import Header from "../header";
 import { getType } from "../../redux/actions/typeAction";
 import { useDispatch } from "react-redux";
+import Nav from "../nav";
 
-const Landing = () => {
+const AdminLanding = () => {
   const dispatch = useDispatch();
   const placeOrderMethod = (type) => {
     dispatch(getType(type));
@@ -20,7 +20,7 @@ const Landing = () => {
   }
   return (
     <>
-      <Header />
+     <Nav/>
       <Grid
         container
         sx={{
@@ -32,10 +32,10 @@ const Landing = () => {
         <Grid item md={3} mt="2%">
           <CustomCard
             text="Morning Tea"
-            paragraphy="You can not order after 11 am"
-            order="Order"
+            paragraphy="You can generate report after 11 am"
+            order="Generate Report"
             src="cup.jpg"
-            path="/teamodal"
+            path="/order"
             onClick={placeOrderMethod("Morning-Tea")}
             disabled={inTime(start, end)}
           />
@@ -43,10 +43,10 @@ const Landing = () => {
         <Grid item md={3} mt="2%">
           <CustomCard
             text="Lunch"
-            paragraphy="You can not order after 1 pm"
-            order="Order"
+            paragraphy="You can generate report after 1 pm"
+            order="Generate Report"
             src="images.jpg"
-            path="/lunchmodal"
+            path="/order"
             onClick={placeOrderMethod("Lunch")}
             disabled={inTime(start, end)}
           />
@@ -54,10 +54,10 @@ const Landing = () => {
         <Grid item md={3} mt="2%">
           <CustomCard
             text="Evening Tea"
-            paragraphy="You can not order after 4 pm"
-            order="Order"
+            paragraphy="You can generate report after 4 pm"
+            order="Generate Report"
             src="cup.jpg"
-            path="/teamodal"
+            path="/order"
             onClick={placeOrderMethod("Evening-Tea")}
             disabled={inTime(start, end)}
           />
@@ -67,4 +67,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default AdminLanding;

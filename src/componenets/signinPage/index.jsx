@@ -9,8 +9,11 @@ import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { addUser } from "../../redux/actions/userAction";
+ 
+
 
 const SigninPage = () => {
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
