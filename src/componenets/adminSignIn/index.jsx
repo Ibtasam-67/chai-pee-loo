@@ -10,7 +10,7 @@ import {
   ADMIN_PASSWORD,
   ADMIN_WRONG_EMAIL,
   ADMIN_WRONG_PASSWORD,
-  ADMIN_WRONG_PASSWORD_EMAIL,
+  ADMIN_WRONG_PASSWORD_EMAIL
 } from "../../utilities/constants";
 
 const AdminSignIn = () => {
@@ -26,7 +26,7 @@ const AdminSignIn = () => {
     e.preventDefault();
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       localStorage.setItem("email", ADMIN_EMAIL);
-      navigate("/order");
+      navigate("/adminlanding");
     } else if (email !== ADMIN_EMAIL) {
       toast.error(ADMIN_WRONG_EMAIL);
     } else if (password !== ADMIN_PASSWORD) {
@@ -49,10 +49,7 @@ const AdminSignIn = () => {
             alt="luminogicsLogo"
             style={{ height: "50px", width: "50px", marginTop: "6%" }}
           />
-          <Typography
-            variant="h5"
-            sx={{ fontWeight: "600", fontFamily: "Inter", marginTop: "6%" }}
-          >
+          <Typography variant="h5" sx={{ fontWeight: "600", fontFamily: "Inter", marginTop: "6%" }}>
             Welcome To Luminogics
           </Typography>
           <Box
@@ -63,9 +60,8 @@ const AdminSignIn = () => {
               flexDirection: "column",
               alignItems: "center",
               mx: "2px",
-              transform: "scale(0.8)",
-            }}
-          >
+              transform: "scale(0.8)"
+            }}>
             <CustomTextField
               name="Email"
               id="email"

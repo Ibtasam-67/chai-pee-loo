@@ -2,17 +2,31 @@ import React from "react";
 import { Grid } from "@mui/material";
 import CustomCard from "../../common/card/index";
 import Header from "../header";
-import { getType } from "../../redux/actions/typeAction";
-import { useDispatch, useSelector } from "react-redux";
+import { getMorningType } from "../../redux/actions/morningTypeAction";
+import { useDispatch } from "react-redux";
+import {
+  lunchEnd,
+  lunchStart,
+  morningTeaEnd,
+  morningTeaStart,
+  eveningTeaStart,
+  eveningTeaEnd
+} from "../../utilities/constants";
+import { getEveningType } from "../../redux/actions/eveningTypeAction";
+import { getLunchType } from "../../redux/actions/lunchTypeAction";
 
 const Landing = () => {
   const dispatch = useDispatch();
-  const placeOrderMethod = (type) => {
-    dispatch(getType(type));
+  const placeOrderMethodMorning = (type) => {
+    dispatch(getMorningType(type));
+  };
+  const placeOrderMethodLunch = (type) => {
+    dispatch(getLunchType(type));
+  };
+  const placeOrderMethodEvening = (type) => {
+    dispatch(getEveningType(type));
   };
 
-  let start = 9 * 60 + 0;
-  let end = 11 * 60 + 0;
   function inTime(start, end) {
     let now = new Date();
     let time = now.getHours() * 60 + now.getMinutes();
@@ -26,9 +40,8 @@ const Landing = () => {
         sx={{
           display: "flex",
           justifyContent: "space-evenly",
-          marginTop: "5%",
-        }}
-      >
+          marginTop: "5%"
+        }}>
         <Grid item md={3} mt="2%">
           <CustomCard
             text="Morning Tea"
@@ -36,8 +49,8 @@ const Landing = () => {
             order="Order"
             src="cup.jpg"
             path="/teamodal"
-            onClick={placeOrderMethod("Morning-Tea")}
-            disabled={inTime(start, end)}
+            onClick={placeOrderMethodMorning("Morning-Tea")}
+            disabled={!inTime(morningTeaStart, morningTeaEnd)}
           />
         </Grid>
         <Grid item md={3} mt="2%">
@@ -47,8 +60,8 @@ const Landing = () => {
             order="Order"
             src="images.jpg"
             path="/lunchmodal"
-            onClick={placeOrderMethod("Lunch")}
-            disabled={inTime(start, end)}
+            onClick={placeOrderMethodLunch("Lunch")}
+            disabled={!inTime(lunchStart, lunchEnd)}
           />
         </Grid>
         <Grid item md={3} mt="2%">
@@ -57,9 +70,9 @@ const Landing = () => {
             paragraphy="You can not order after 4 pm"
             order="Order"
             src="cup.jpg"
-            path="/teamodal"
-            onClick={placeOrderMethod("Evening-Tea")}
-            disabled={inTime(start, end)}
+            path="/eveningTea"
+            onClick={placeOrderMethodEvening("Evening-Tea")}
+            disabled={!inTime(eveningTeaStart, eveningTeaEnd)}
           />
         </Grid>
       </Grid>

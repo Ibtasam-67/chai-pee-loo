@@ -3,15 +3,7 @@ import { Box, Button } from "@mui/material";
 import "./cards.css";
 import { Link } from "react-router-dom";
 
-const CustomCards = ({
-  text,
-  order,
-  paragraphy,
-  src,
-  path,
-  onClick,
-  disabled,
-}) => {
+const CustomCards = ({ text, order, paragraphy, src, path, onClick, disabled, type }) => {
   return (
     <Box className="body-1">
       <Box className="container">
@@ -27,9 +19,7 @@ const CustomCards = ({
               </Button>
             ) : (
               <Link to={path}>
-                <Button onClick={onClick}  >
-                  {order}{" "}
-                </Button>
+                <Button onClick={onClick}>{order}</Button>
               </Link>
             )}
             <h6>{paragraphy}</h6>

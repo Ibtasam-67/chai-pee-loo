@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -9,36 +10,33 @@ import {
   Divider,
   Grid,
   CardContent,
-  TablePagination,
+  TablePagination
 } from "@mui/material";
 import { Container } from "@mui/system";
-import Header from "../../header/index";
 import Loader from "../../../common/loader/loader";
 import CustomTableCell from "../../../common/tableCell/tableCell";
 import Pagination from "../../../common/pagination/pagination";
 import axios from "axios";
- 
+import Nav from "../../nav";
+import { useSelector } from "react-redux";
+
 function TablePaginationActions(props) {
   return <Pagination props={props} />;
 }
 
-const Orders = () => {
+const TeaOrder = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(0);
   const [products, setProducts] = useState([]);
+  const type = useSelector((state) => state?.morning?.data);
 
-  
-
-  const getUsers = async () => {
+  const getUsers = async (type) => {
     axios
-      .get(
-        "https://lu-meal-stage.herokuapp.com/api/admin/get-available-orders/Morning-Tea"
-      )
+      .get(`https://lu-meal-stage.herokuapp.com/api/admin/get-available-orders/Morning-Tea`)
       .then((res) => {
         const products = res.data.payload.data;
         setProducts(products);
-        console.log(products);
       });
   };
 
@@ -57,7 +55,7 @@ const Orders = () => {
 
   return (
     <>
-      <Header />
+      <Nav />
       <Container>
         {loading ? (
           <Loader />
@@ -65,18 +63,15 @@ const Orders = () => {
           <Grid
             sx={{
               mt: "5vh",
-              boxShadow:
-                "rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;",
-            }}
-          >
+              boxShadow: "rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;"
+            }}>
             <CardContent>
               <Grid
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  width: "91%",
-                }}
-              >
+                  width: "91%"
+                }}>
                 <Typography variant="h4" ml="2vh">
                   Orders
                 </Typography>
@@ -95,19 +90,15 @@ const Orders = () => {
                     </TableHead>
                     <TableBody>
                       {(rowsPerPage > 0
-                        ? products.slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
+                        ? products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         : products
                       ).map((product) => {
                         return (
                           <TableRow
-                            key={product.name}
+                            key={product._id}
                             sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
+                              "&:last-child td, &:last-child th": { border: 0 }
+                            }}>
                             <CustomTableCell name={product.employeeName} />
                             <CustomTableCell name={product.teaVolume} />
                             <CustomTableCell name={product.sugerQuantity} />
@@ -118,20 +109,15 @@ const Orders = () => {
                     <TableRow>
                       {products.length >= 10 && (
                         <TablePagination
-                          rowsPerPageOptions={[
-                            5,
-                            10,
-                            25,
-                            { label: "All", value: -1 },
-                          ]}
+                          rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
                           count={products.length}
                           rowsPerPage={rowsPerPage}
                           page={page}
                           SelectProps={{
                             inputProps: {
-                              "aria-label": "rows per page",
+                              "aria-label": "rows per page"
                             },
-                            native: true,
+                            native: true
                           }}
                           onPageChange={handleChangePage}
                           onRowsPerPageChange={handleChangeRowsPerPage}
@@ -146,9 +132,8 @@ const Orders = () => {
                   style={{
                     display: "flex",
                     justifyContent: "center",
-                    fontSize: "24px",
-                  }}
-                >
+                    fontSize: "24px"
+                  }}>
                   Nothing To Show
                 </Typography>
               )}
@@ -160,4 +145,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default TeaOrder;

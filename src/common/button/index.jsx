@@ -12,15 +12,14 @@ const CustomButton = ({ onClick, text, isAuth, loading, isEnable }) => {
         width: isAuth ? "100%" : "80%",
         backgroundColor: "#000000",
         "&:hover": {
-          background: "#000000",
+          background: "#000000"
         },
         fontSize: "16px",
         borderRadius: "10px",
-        marginTop: "12%",
+        marginTop: "12%"
       }}
       onClick={onClick}
-      disabled={isEnable}
-    >
+      disabled={isEnable}>
       {loading ? <CircularProgress /> : text}
     </Button>
   );

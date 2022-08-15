@@ -1,19 +1,18 @@
 import React from "react";
 import { Toolbar, AppBar, Typography, Box, Grid, Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Nav = () => {
   const navigate = useNavigate();
   const logOut = () => {
-    window.localStorage.removeItem("token");
-    navigate("/signin");
+    window.localStorage.removeItem("email");
+    navigate("/adminsignin");
   };
   return (
     <Box sx={{ flexGrow: 1 }} data-testid="header-1">
       <AppBar position="static" sx={{ backgroundColor: "#0C1012" }}>
         <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
-          <Link to="/" style={{ textDecorationLine: "none" }}>
+          <Link to="/adminlanding" style={{ textDecorationLine: "none" }}>
             <Typography
               variant="h5"
               sx={{
@@ -46,4 +45,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Nav;

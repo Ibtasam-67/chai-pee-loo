@@ -1,25 +1,22 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from "react";
-import { Box, Container, Card, Typography, Divider, Grid } from "@mui/material";
-import CustomButton from "../../common/button";
-import CustomTextField from "../../common/textField/index";
-import Header from "../header";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { createOrder, deleteOrders, updateOrders } from "../../services/dataServices";
-import { getEmployeeOrder } from "../../services/dataServices";
+import { Box, Container, Card, Typography, Divider, MenuItem, Select, Grid } from "@mui/material";
+import { addOrder, deleteOrder, updateOrder } from "../../redux/actions/orderAction";
+import Header from "../header";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
-import { addOrder, deleteOrder, updateOrder } from "../../redux/actions/orderAction";
-// import { useNavigate } from "react-router-dom";
+import { getEmployeeOrder } from "../../services/dataServices";
+import CustomButton from "../../common/button";
+import CustomTextField from "../../common/textField";
+import { useDispatch, useSelector } from "react-redux";
 
-const LunchModal = () => {
-  // const navigate = useNavigate();
-  const [alldata, setAllData] = useState();
+const EveningTeaModal = () => {
+  const [alldata, setAllData] = useState({});
   const user = useSelector((state) => state?.user?.data?.data?.payload?.data?.user);
+  const type = useSelector((state) => state?.evening?.data);
 
-  const type = useSelector((state) => state?.lunchType?.data);
-
-  const [userName, setuserName] = useState(user?.userName);
+  const [userName, setUserName] = useState(user?.userName);
   const [allOrders, setAllOrders] = useState([]);
   const [createloading, setCreateloading] = useState(false);
   const [deleteloading, setDeleteloading] = useState(false);
@@ -35,27 +32,25 @@ const LunchModal = () => {
       hourCycle: "h24"
     });
     date = date + "Z";
-
     const payload = {
       email: user?.email,
       employeeName: user?.userName,
+      sugerQuantity: alldata?.sugerQuantity,
+      teaVolume: alldata?.teaVolume,
       orderDate: date,
-      orderType: type,
-      extras: alldata?.extras,
-      rotiQuantity: alldata?.rotiQuantity,
-      amount: alldata?.amount
+      orderType: type
     };
     const result = await createOrder(payload);
     if (result.status === 200) {
-      const result = await getEmployeeOrder(type, user?.email);
-      setAllOrders(result?.data?.payload?.data);
-      setAllData(result?.data?.payload?.data[0]);
+      const res = await getEmployeeOrder(type, user?.email);
+      setAllOrders(res?.data?.payload?.data);
+      setAllData(res?.data?.payload?.data[0]);
       toast.success(result?.data?.metadata?.message);
     } else {
       toast.error(result?.response?.data?.metadata?.message);
     }
-    setCreateloading(false);
     dispatch(addOrder(payload));
+    setCreateloading(false);
   };
 
   const onEdit = async (e) => {
@@ -72,8 +67,8 @@ const LunchModal = () => {
     } else {
       toast.error(order?.response?.data?.metadata?.message);
     }
-    setUpdateloading(false);
     dispatch(updateOrder(newOrder));
+    setUpdateloading(false);
   };
 
   const onDelete = async (e) => {
@@ -89,11 +84,12 @@ const LunchModal = () => {
     setDeleteloading(false);
     setAllData({
       ...alldata,
-      extras: "",
-      rotiQuantity: "",
-      amount: ""
+      teaVolume: "",
+      sugerQuantity: "",
+      employeeName: ""
     });
   };
+
   useEffect(() => {
     getAllEmployers();
   }, []);
@@ -109,11 +105,16 @@ const LunchModal = () => {
 
       <Header />
       <Container maxWidth="xs">
-        <Card sx={{ maxWidth: 545, height: 550, boxShadow: 24, marginTop: "15%" }}>
+        <Card sx={{ maxWidth: 645, height: 470, boxShadow: 24, marginTop: "15%" }}>
           <Typography
             variant="h5"
-            sx={{ fontWeight: "600", fontFamily: "monospace", marginTop: "6%" }}>
-            Order Your Lunch
+            sx={{
+              fontWeight: "600",
+              fontFamily: "monospace",
+              marginTop: "8%",
+              boxShadow: "20px"
+            }}>
+            Tea Requirements
           </Typography>
           <Divider sx={{ marginTop: "5%" }} />
           <Box
@@ -127,52 +128,41 @@ const LunchModal = () => {
               transform: "scale(0.8)"
             }}>
             <CustomTextField
-              name="username"
-              id="username"
-              label="Username"
+              name="UserName"
+              id="UserName"
+              label="UserName"
               type="name"
               value={userName}
-              onChange={(e) => setuserName(e.target.value)}
+              onChange={(e) => setUserName(e.target.value)}
             />
-            <CustomTextField
-              name="Description"
-              id="description"
-              label="Description"
-              type="name"
-              value={alldata?.extras}
+            <Typography sx={{ marginRight: "auto", fontWeight: "600" }}>Chay Quantity</Typography>
+            <Select
+              labelId="demo-simple-select-autowidth-label"
+              id="demo-simple-select-autowidth"
+              value={alldata?.teaVolume}
               onChange={(e) => {
                 let d = { ...alldata };
-                d.extras = e.target.value;
+                d.teaVolume = e.target.value;
                 setAllData(d);
               }}
-            />
-            <CustomTextField
-              InputProps
-              name="Roti Quantity"
-              id="roti"
-              label="Roti Quantity"
-              type="number"
-              value={alldata?.rotiQuantity}
-              onChange={(e) => {
-                let d = { ...alldata };
-                d.rotiQuantity = parseInt(e.target.value);
-                setAllData(d);
-              }}
-            />
+              fullWidth
+              label="Tea">
+              <MenuItem value={`Half-Cup`}>Half Cup </MenuItem>
+              <MenuItem value={`Full-Cup`}>Full Cup </MenuItem>
+            </Select>
             <CustomTextField
               InputProps
-              name="Amount Paid"
-              id="amout"
-              label="Amount Paid"
+              name="Sugar"
+              id="sugar"
+              label="Sugar Quantity"
               type="number"
-              value={alldata?.amount}
+              value={alldata?.sugerQuantity}
               onChange={(e) => {
                 let d = { ...alldata };
-                d.amount = parseInt(e.target.value);
+                d.sugerQuantity = parseInt(e.target.value);
                 setAllData(d);
               }}
             />
-
             <Grid
               container
               style={{
@@ -197,4 +187,4 @@ const LunchModal = () => {
   );
 };
 
-export default LunchModal;
+export default EveningTeaModal;
