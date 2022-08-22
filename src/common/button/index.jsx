@@ -20,7 +20,7 @@ const CustomButton = ({ onClick, text, isAuth, loading, isEnable }) => {
       }}
       onClick={onClick}
       disabled={isEnable}>
-      {loading ? <CircularProgress /> : text}
+      {loading ? <CircularProgress size="28px" /> : text}
     </Button>
   );
 };

@@ -22,7 +22,7 @@ const CustomCards = ({ text, order, paragraphy, src, path, onClick, disabled, ty
                 <Button onClick={onClick}>{order}</Button>
               </Link>
             )}
-            <h6>{paragraphy}</h6>
+            <h6 style={{ padding: "5%" }}>{paragraphy}</h6>
           </Box>
         </Box>
       </Box>

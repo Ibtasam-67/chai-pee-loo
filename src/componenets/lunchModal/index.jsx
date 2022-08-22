@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { Box, Container, Card, Typography, Divider, Grid } from "@mui/material";
+import { Box, Container, Card, Typography, Divider, Grid, Button } from "@mui/material";
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField/index";
 import Header from "../header";
@@ -10,11 +10,13 @@ import { getEmployeeOrder } from "../../services/dataServices";
 import toast from "react-hot-toast";
 import { Toaster } from "react-hot-toast";
 import { addOrder, deleteOrder, updateOrder } from "../../redux/actions/orderAction";
-// import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const LunchModal = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [alldata, setAllData] = useState();
+  console.log(alldata);
   const user = useSelector((state) => state?.user?.data?.data?.payload?.data?.user);
 
   const type = useSelector((state) => state?.lunchType?.data);
@@ -30,12 +32,12 @@ const LunchModal = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     setCreateloading(true);
-    let date = new Date().toLocaleString("en-US", {
-      timeZone: "Asia/Karachi",
-      hourCycle: "h24"
-    });
-    date = date + "Z";
-
+    // let date = new Date().toLocaleString("en-US", {
+    //   timeZone: "Asia/Karachi",
+    //   hourCycle: "h24"
+    // });
+    // date = date + "Z";
+    let date = "2022-08-18T09:00:00";
     const payload = {
       email: user?.email,
       employeeName: user?.userName,
@@ -81,18 +83,31 @@ const LunchModal = () => {
     setDeleteloading(true);
     const order = await deleteOrders(alldata?._id);
     if (order.status === 200) {
+      setAllData({
+        ...alldata,
+        extras: "",
+        rotiQuantity: "",
+        amount: ""
+      });
+      const result = await getEmployeeOrder(type, user?.email);
+      setAllOrders(result?.data?.payload?.data);
+      setAllData(result?.data?.payload?.data[0]);
+
+      // setTimeout(() => {
+      //   navigate("/");
+      // }, 1000);
       toast.success(order?.data?.metadata?.message);
     } else {
       toast.error(order?.response?.data?.metadata?.message);
     }
     dispatch(deleteOrder(order, alldata?._id));
     setDeleteloading(false);
-    setAllData({
-      ...alldata,
-      extras: "",
-      rotiQuantity: "",
-      amount: ""
-    });
+    // setAllData({
+    //   ...alldata,
+    //   extras: "",
+    //   rotiQuantity: "",
+    //   amount: ""
+    // });
   };
   useEffect(() => {
     getAllEmployers();
@@ -109,13 +124,11 @@ const LunchModal = () => {
 
       <Header />
       <Container maxWidth="xs">
-        <Card sx={{ maxWidth: 545, height: 550, boxShadow: 24, marginTop: "15%" }}>
-          <Typography
-            variant="h5"
-            sx={{ fontWeight: "600", fontFamily: "monospace", marginTop: "6%" }}>
+        <Card sx={{ maxWidth: 545, maxHeight: 700, boxShadow: 24, marginTop: "5%" }}>
+          <Typography variant="h5" sx={{ fontWeight: "600", marginTop: "6%" }}>
             Order Your Lunch
           </Typography>
-          <Divider sx={{ marginTop: "5%" }} />
+          <Divider sx={{ marginTop: "2%" }} />
           <Box
             component="form"
             noValidate
@@ -173,21 +186,48 @@ const LunchModal = () => {
               }}
             />
 
-            <Grid
-              container
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                marginTop: "1rem"
-              }}>
-              <Grid item xs={4}>
-                <CustomButton text="Order" onClick={onSubmit} loading={createloading} />
-              </Grid>
-              <Grid item xs={4}>
-                <CustomButton text="Edit" onClick={onEdit} loading={updateloading} />
-              </Grid>
-              <Grid item xs={4}>
-                <CustomButton text="Delete" onClick={onDelete} loading={deleteloading} />
+            <Grid container>
+              {!allOrders && (
+                <>
+                  <Grid item xs={12}>
+                    <CustomButton
+                      text="Order"
+                      onClick={onSubmit}
+                      loading={createloading}
+                      isAuth
+                      isEnable={!alldata?.amount || !alldata?.rotiQuantity || !alldata?.extras}
+                    />
+                  </Grid>
+                </>
+              )}
+              {allOrders && (
+                <>
+                  <Grid item xs={12}>
+                    <CustomButton text="Edit" onClick={onEdit} loading={updateloading} isAuth />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomButton text="Delete" onClick={onDelete} loading={deleteloading} isAuth />
+                  </Grid>
+                </>
+              )}
+              <Grid item xs={12}>
+                <Link to={"/"} style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: "#000000",
+                      "&:hover": {
+                        background: "#000000"
+                      },
+                      fontWeight: "600",
+                      fontSize: "16px",
+                      borderRadius: "10px",
+                      marginTop: "6%",
+                      width: "100%"
+                    }}>
+                    Cancel
+                  </Button>
+                </Link>
               </Grid>
             </Grid>
           </Box>

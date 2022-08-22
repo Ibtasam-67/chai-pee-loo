@@ -40,20 +40,17 @@ const SigninPage = () => {
     setLoading(false);
   };
   return (
-    <Box sx={{ marginTop: "8%" }}>
+    <Box sx={{ marginTop: "4%" }}>
       <Toaster position="top-right" reverseOrder={true} />
-
       <Container maxWidth="xs">
         <Card style={{ maxWidth: 545, height: 500 }}>
           <img
             src="luminogicsLogo-1.png"
             alt="luminogicsLogo"
-            style={{ height: "50px", width: "50px", marginTop: "6%" }}
+            style={{ height: "50px", width: "50px", marginTop: "6%", objectFit: "contain" }}
           />
-          <Typography
-            variant="h5"
-            style={{ fontWeight: "600", fontFamily: "Inter", marginTop: "6%" }}>
-            Welcome To Luminogics
+          <Typography variant="h5" style={{ fontWeight: "600", marginTop: "6%" }}>
+            Sign In To Luminogics
           </Typography>
           <Box
             component="form"
@@ -91,23 +88,13 @@ const SigninPage = () => {
           </Box>
           <Box style={{ display: "flex", justifyContent: "space-around" }}>
             <Grid item sx={3}>
-              <Link to="/adminsignin">
-                <span
-                  style={{
-                    fontWeight: "600",
-                    textDecoration: "none",
-                    color: "#2196f3"
-                  }}>
-                  Admin SignIn
-                </span>
-              </Link>
-            </Grid>
-            <Grid item sx={3}>
+              <span> Do not have an account? </span>
+
               <Link to="/signup">
                 <span
                   style={{
                     fontWeight: "600",
-                    textDecorationLine: "none ",
+                    textDecoration: "none ",
                     color: "#2196f3"
                   }}>
                   Sign Up

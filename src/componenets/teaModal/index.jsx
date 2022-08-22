@@ -1,7 +1,17 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { createOrder, deleteOrders, updateOrders } from "../../services/dataServices";
-import { Box, Container, Card, Typography, Divider, MenuItem, Select, Grid } from "@mui/material";
+import {
+  Box,
+  Container,
+  Card,
+  Typography,
+  Divider,
+  MenuItem,
+  Select,
+  Grid,
+  Button
+} from "@mui/material";
 import { addOrder, deleteOrder, updateOrder } from "../../redux/actions/orderAction";
 import Header from "../header";
 import toast from "react-hot-toast";
@@ -10,11 +20,14 @@ import { getEmployeeOrder } from "../../services/dataServices";
 import CustomButton from "../../common/button";
 import CustomTextField from "../../common/textField";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 const EveningTeaModal = () => {
+  const navigate = useNavigate();
+
   const [alldata, setAllData] = useState({});
   const user = useSelector((state) => state?.user?.data?.data?.payload?.data?.user);
-  const type = useSelector((state) => state?.morning?.data);
+  const type = useSelector((state) => state?.evening?.data);
 
   const [userName, setUserName] = useState(user?.userName);
   const [allOrders, setAllOrders] = useState([]);
@@ -78,6 +91,9 @@ const EveningTeaModal = () => {
     setDeleteloading(true);
     const order = await deleteOrders(alldata?._id);
     if (order.status === 200) {
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
       toast.success(order?.data?.metadata?.message);
     } else {
       toast.error(order?.response?.data?.metadata?.message);
@@ -99,19 +115,18 @@ const EveningTeaModal = () => {
     setAllOrders(result?.data?.payload?.data);
     setAllData(result?.data?.payload?.data[0]);
   };
+  console.log(alldata?.teaVolume);
 
   return (
     <Box>
       <Toaster position="top-right" reverseOrder={true} />
-
       <Header />
       <Container maxWidth="xs">
-        <Card sx={{ maxWidth: 645, height: 470, boxShadow: 24, marginTop: "15%" }}>
+        <Card sx={{ maxWidth: 645, maxHeight: 600, boxShadow: 24, marginTop: "15%" }}>
           <Typography
             variant="h5"
             sx={{
               fontWeight: "600",
-              fontFamily: "monospace",
               marginTop: "8%",
               boxShadow: "20px"
             }}>
@@ -140,7 +155,7 @@ const EveningTeaModal = () => {
             <Select
               labelId="demo-simple-select-autowidth-label"
               id="demo-simple-select-autowidth"
-              defaultValue={alldata?.teaVolume}
+              value={alldata?.teaVolume}
               onChange={(e) => {
                 let d = { ...alldata };
                 d.teaVolume = e.target.value;
@@ -148,8 +163,8 @@ const EveningTeaModal = () => {
               }}
               fullWidth
               label="Tea">
-              <MenuItem value={`Half-Cup`}>Half Cup </MenuItem>
-              <MenuItem value={`Full-Cup`}>Full Cup </MenuItem>
+              <MenuItem value="Half Cup">Half Cup </MenuItem>
+              <MenuItem value="Full Cup">Full Cup </MenuItem>
             </Select>
             <CustomTextField
               InputProps
@@ -164,21 +179,51 @@ const EveningTeaModal = () => {
                 setAllData(d);
               }}
             />
-            <Grid
-              container
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                marginTop: "1rem"
-              }}>
-              <Grid item xs={4}>
-                <CustomButton text="Order" onClick={onSubmit} loading={createloading} />
-              </Grid>
-              <Grid item xs={4}>
-                <CustomButton text="Edit" onClick={onEdit} loading={updateloading} />
-              </Grid>
-              <Grid item xs={4}>
-                <CustomButton text="Delete" onClick={onDelete} loading={deleteloading} />
+
+            <Grid container>
+              {!allOrders && (
+                <>
+                  <Grid item xs={12}>
+                    <CustomButton
+                      text="Order"
+                      onClick={onSubmit}
+                      loading={createloading}
+                      isAuth
+                      isEnable={!alldata?.sugerQuantity || !alldata?.teaVolume}
+                    />
+                  </Grid>
+                </>
+              )}
+
+              {allOrders && (
+                <>
+                  <Grid item xs={12}>
+                    <CustomButton text="Edit" onClick={onEdit} loading={updateloading} isAuth />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <CustomButton text="Delete" onClick={onDelete} loading={deleteloading} isAuth />
+                  </Grid>
+                </>
+              )}
+
+              <Grid item xs={12}>
+                <Link to={"/"} style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="contained"
+                    style={{
+                      backgroundColor: "#000000",
+                      "&:hover": {
+                        background: "#000000"
+                      },
+                      fontWeight: "600",
+                      fontSize: "16px",
+                      borderRadius: "10px",
+                      marginTop: "6%",
+                      width: "100%"
+                    }}>
+                    Cancel
+                  </Button>
+                </Link>
               </Grid>
             </Grid>
           </Box>

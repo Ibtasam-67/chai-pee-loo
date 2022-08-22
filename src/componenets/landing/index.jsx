@@ -42,34 +42,34 @@ const Landing = () => {
           justifyContent: "space-evenly",
           marginTop: "5%"
         }}>
-        <Grid item md={3} mt="2%">
+        <Grid item md={3}>
           <CustomCard
             text="Morning Tea"
             paragraphy="You can not order after 11 am"
             order="Order"
-            src="cup.jpg"
+            src="chayLogo.png"
             path="/teamodal"
             onClick={placeOrderMethodMorning("Morning-Tea")}
-            disabled={!inTime(morningTeaStart, morningTeaEnd)}
+            disabled={inTime(morningTeaStart, morningTeaEnd)}
           />
         </Grid>
-        <Grid item md={3} mt="2%">
+        <Grid item md={3}>
           <CustomCard
             text="Lunch"
             paragraphy="You can not order after 1 pm"
             order="Order"
-            src="images.jpg"
+            src="BurgerLogo.png"
             path="/lunchmodal"
             onClick={placeOrderMethodLunch("Lunch")}
-            disabled={!inTime(lunchStart, lunchEnd)}
+            disabled={inTime(lunchStart, lunchEnd)}
           />
         </Grid>
-        <Grid item md={3} mt="2%">
+        <Grid item md={3}>
           <CustomCard
             text="Evening Tea"
             paragraphy="You can not order after 4 pm"
             order="Order"
-            src="cup.jpg"
+            src="chayLogo.png"
             path="/eveningTea"
             onClick={placeOrderMethodEvening("Evening-Tea")}
             disabled={!inTime(eveningTeaStart, eveningTeaEnd)}

@@ -17,7 +17,7 @@ const Nav = () => {
               variant="h5"
               sx={{
                 color: "#FF5442",
-                fontFamily: "monospace",
+
                 fontWeight: "700"
               }}>
               Chay-Pee-Lo
@@ -31,7 +31,7 @@ const Nav = () => {
                   color: "white",
                   textDecorationLine: "none",
                   marginRight: "1rem",
-                  fontFamily: "monospace",
+
                   fontWeight: "700"
                 }}
                 onClick={logOut}>

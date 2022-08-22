@@ -15,7 +15,7 @@ const CustomTextField = ({ name, id, label, type, onChange, value, InputProps })
         autoFocus
         onChange={onChange}
         value={value}
-        InputProps={{ inputProps: { min: 0, max: 10 } }}
+        InputProps={{ inputProps: { min: 0, max: 10000 } }}
       />
     </>
   );

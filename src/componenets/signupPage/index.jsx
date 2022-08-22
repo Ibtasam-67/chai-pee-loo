@@ -44,10 +44,10 @@ const SignupPage = () => {
           <img
             src="luminogicsLogo-1.png"
             alt="luminogicsLogo"
-            style={{ height: "50px", width: "50px", marginTop: "6%" }}
+            style={{ height: "50px", width: "50px", marginTop: "6%", objectFit: "contain" }}
           />
-          <Typography variant="h5" sx={{ fontWeight: "600", fontFamily: "Inter", marginTop: "8%" }}>
-            Welcome To Luminogics
+          <Typography variant="h5" sx={{ fontWeight: "600", marginTop: "8%" }}>
+            Sign Up To Luminogics
           </Typography>
           <Box
             component="form"
